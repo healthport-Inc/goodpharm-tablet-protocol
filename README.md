@@ -32,7 +32,6 @@ const callBack = (packet: PacketType, rawPacket: string) => {
   //...
 }
 const { serviceStatus } = GoodpharmTabletProtocol.usePacketReceiver(callBack,'dev')
-
 ```
 
 ## Contributing

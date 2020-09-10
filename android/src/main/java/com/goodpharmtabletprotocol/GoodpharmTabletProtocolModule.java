@@ -9,11 +9,10 @@ import android.util.Base64;
 import android.util.Log;
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.ReactApplication;
+import com.facebook.react.bridge.*;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.goodpharmtabletprotocol.VORepository.SocketVO;
 import com.goodpharmtabletprotocol.service.SocketCommService;
 
@@ -30,6 +29,7 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
 
   private Intent mGoodpharmSocketServiceIntent = null;
   private SocketCommService mSocketCommService;
+  DeviceEventManagerModule.RCTDeviceEventEmitter jsModule;
 
   public GoodpharmTabletProtocolModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -59,11 +59,18 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
       SocketCommService.SocketBinder mb = (SocketCommService.SocketBinder) service;
       mSocketCommService = mb.getService(); // 서비스가 제공하는 메소드 호출하여 서비스쪽 객체를 전달받을수 있슴
 //        isService = true;
+
+      WritableMap packetParams = Arguments.createMap(); // add here the data you want to
+      // 패킷 수신
+      packetParams.putBoolean("status", true);
+      applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("serviceStatus", packetParams);
     }
 
     public void onServiceDisconnected(ComponentName name) {
-      // 서비스와 연결이 끊겼을 때 호출되는 메서드
-//        isService = false;
+      WritableMap packetParams = Arguments.createMap(); // add here the data you want to
+      // 패킷 수신
+      packetParams.putBoolean("status", false);
+      applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("serviceStatus", packetParams);
     }
   };
 

@@ -1,18 +1,27 @@
-import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import GoodpharmTabletProtocol from 'goodpharm-tablet-protocol';
+const {
+  initSocketService,
+  usePacketReceiver,
+  closeSocketService,
+} = GoodpharmTabletProtocol;
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    GoodpharmTabletProtocol.multiply(3, 7).then(setResult);
-    GoodpharmTabletProtocol.initSocketService();
+  useEffect(() => {
+    initSocketService();
   }, []);
+
+  const { serviceStatus } = usePacketReceiver(() => {}, 'dev');
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Result: {String(serviceStatus)}</Text>
+      {serviceStatus ? (
+        <Button title="close" onPress={closeSocketService} />
+      ) : (
+        <Button title="켜기" onPress={initSocketService} />
+      )}
     </View>
   );
 }
