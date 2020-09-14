@@ -1,15 +1,14 @@
 package com.goodpharmtabletprotocol;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Base64;
-import android.util.Log;
 import androidx.annotation.NonNull;
 
-import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.*;
 
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -30,6 +29,8 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
   private Intent mGoodpharmSocketServiceIntent = null;
   private SocketCommService mSocketCommService;
   DeviceEventManagerModule.RCTDeviceEventEmitter jsModule;
+
+  public Activity bindingActivity;
 
   public GoodpharmTabletProtocolModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -58,39 +59,28 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
       // 서비스와 연결되었을 때 호출되는 메서드 서비스 객체를 전역변수로 저장
       SocketCommService.SocketBinder mb = (SocketCommService.SocketBinder) service;
       mSocketCommService = mb.getService(); // 서비스가 제공하는 메소드 호출하여 서비스쪽 객체를 전달받을수 있슴
-//        isService = true;
-
-      WritableMap packetParams = Arguments.createMap(); // add here the data you want to
-      // 패킷 수신
-      packetParams.putBoolean("status", true);
-      applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("serviceStatus", packetParams);
     }
 
     public void onServiceDisconnected(ComponentName name) {
-      WritableMap packetParams = Arguments.createMap(); // add here the data you want to
-      // 패킷 수신
-      packetParams.putBoolean("status", false);
-      applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("serviceStatus", packetParams);
+      WritableMap params = Arguments.createMap();
+      params.putBoolean("status", false);
+      applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("serviceStatus", params);
     }
   };
 
-  // Example method
-  // See https://facebook.github.io/react-native/docs/native-modules-android
-  @ReactMethod
-  public void multiply(int a, int b, Promise promise) {
-    promise.resolve(a * b);
-  }
-
   @ReactMethod
   public void initSocketService() {
-    Log.d("dotdot","init");
-    mGoodpharmSocketServiceIntent = new Intent(getCurrentActivity(), SocketCommService.class);
-    getCurrentActivity().bindService(mGoodpharmSocketServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    bindingActivity = getCurrentActivity();
+    mGoodpharmSocketServiceIntent = new Intent(bindingActivity, SocketCommService.class);
+    bindingActivity.bindService(mGoodpharmSocketServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
   }
 
   @ReactMethod
   public void closeSocketService() {
-    getCurrentActivity().unbindService(mServiceConnection);
+    bindingActivity.stopService(mGoodpharmSocketServiceIntent);
+    if (bindingActivity != null) {
+      bindingActivity.unbindService(mServiceConnection);
+    }
   }
 
   @ReactMethod

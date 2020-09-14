@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
+import { Screens } from './pages';
+
+import type { PacketType } from './interface';
+
+const {
+  sendPacket,
+} = NativeModules.GoodpharmTabletProtocol as GoodpharmTabletProtocolType;
+
+const ERROR_PACKET_HEADER = 'Command=ERROR&Body=';
+
 type GoodpharmTabletProtocolType = {
-  multiply: (a: number, b: number) => Promise<number>;
   encrypt: (string: string) => Promise<string>;
   decrypt: (encryptedString: string) => Promise<string>;
   sendPacket: (packet: string) => void;
@@ -11,56 +20,15 @@ type GoodpharmTabletProtocolType = {
   resetSocketService: () => void;
 };
 
-interface BasePacketType {
-  userName: string;
-  userToken: string;
-  drugSeq: string;
-  askDate: string;
-}
-
-interface DIREPacketType {
-  command: 'DIRE';
-}
-interface CommonPacketType extends BasePacketType {
-  command: 'AUTH' | 'DIREN' | 'REMO';
-}
-interface AGREPacketType {
-  command: 'AGRE';
-}
-interface NAGREPacketType {
-  command: 'NAGRE';
-}
-interface AUTHCPacketType extends BasePacketType {
-  command: 'AUTHC';
-  phoneArray: string[];
-}
-interface DIREUPacketType extends BasePacketType {
-  command: 'DIREU';
-  phoneArray: string[];
-}
-
-type PacketType =
-  | DIREPacketType
-  | CommonPacketType
-  | AGREPacketType
-  | NAGREPacketType
-  | AUTHCPacketType
-  | DIREUPacketType
-  | undefined;
-
 const handlePacket = (packetString: string): PacketType => {
   const packetArray = packetString.split('&');
-  const {
-    sendPacket,
-  } = NativeModules.GoodpharmTabletProtocol as GoodpharmTabletProtocolType;
-
   if (
     packetArray[0] === undefined ||
     packetArray[1] === undefined ||
     packetArray[0].split('=')[1] === undefined ||
     packetArray[1].split('=')[1] === undefined
   ) {
-    sendPacket('Command=ERROR&Body=' + packetString);
+    sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
   const command = packetArray[0].split('=')[1];
@@ -77,7 +45,7 @@ const handlePacket = (packetString: string): PacketType => {
     bodyArray[1] === undefined ||
     bodyArray[2] === undefined
   ) {
-    sendPacket('Command=ERROR&Body=' + packetString);
+    sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
   const userName = bodyArray[0];
@@ -86,7 +54,7 @@ const handlePacket = (packetString: string): PacketType => {
 
   if (command === 'AUTH') {
     if (bodyArray[3] === undefined) {
-      sendPacket('Command=ERROR&Body=' + packetString);
+      sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -104,7 +72,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'AUTHC') {
     if (bodyArray[3] === undefined || bodyArray[4] === undefined) {
-      sendPacket('Command=ERROR&Body=' + packetString);
+      sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -120,7 +88,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'DIREU') {
     if (bodyArray[3] === undefined || bodyArray[4] === undefined) {
-      sendPacket('Command=ERROR&Body=' + packetString);
+      sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -136,7 +104,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'DIREN') {
     if (bodyArray[3] === undefined) {
-      sendPacket('Command=ERROR&Body=' + packetString);
+      sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -150,7 +118,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'REMO') {
     if (bodyArray[3] === undefined) {
-      sendPacket('Command=ERROR&Body=' + packetString);
+      sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -163,7 +131,7 @@ const handlePacket = (packetString: string): PacketType => {
       askDate,
     };
   } else {
-    sendPacket('Command=ERROR&Body=' + packetString);
+    sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
 };
@@ -176,11 +144,12 @@ const usePacketReceiver = (
   callBack: (packet: PacketType, rawPacket: string) => void,
   buildType: 'dev' | 'prod'
 ) => {
-  const [serviceStatus, setServiceStatus] = useState<boolean>(true);
+  const [serviceStatus, setServiceStatus] = useState<boolean>(false);
   useEffect(() => {
     const eventEmitter = new NativeEventEmitter(
       NativeModules.GoodpharmTabletProtocol
     );
+    console.log('make hook');
     const packetEventListener = eventEmitter.addListener(
       'receivePacket',
       async (event: { packet: string }) => {
@@ -200,7 +169,7 @@ const usePacketReceiver = (
     const serviceEventListener = eventEmitter.addListener(
       'serviceStatus',
       (event: { status: boolean }) => {
-        console.log(event);
+        console.log('event.status', event);
         setServiceStatus(event.status);
       }
     );
@@ -226,5 +195,7 @@ const GoodpharmTabletProtocol = {
   ...GoodpharmModule,
   usePacketReceiver,
 };
+
+export { Screens };
 
 export default GoodpharmTabletProtocol;

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import android.util.Log;
 import androidx.annotation.WorkerThread;
 
 import com.facebook.react.ReactApplication;
@@ -25,7 +24,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static com.goodpharmtabletprotocol.Globals.socketVOList;
-import static com.goodpharmtabletprotocol.GoodpharmTabletProtocolPackage.mGoodpharmTabletProtocolModule;
 
 
 public class SocketCommService extends Service {
@@ -46,10 +44,13 @@ public class SocketCommService extends Service {
   @Override
   public void onCreate() {
     super.onCreate();
-    Log.d("dotdot","service start");
     svContext = getApplicationContext();
     jsModule = ((ReactApplication) svContext).getReactNativeHost().getReactInstanceManager().getCurrentReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
     onConnectSocket();
+
+    WritableMap params = Arguments.createMap(); // add here the data you want to
+    params.putBoolean("status", true);
+    jsModule.emit("serviceStatus", params);
   }
 
   @Override
@@ -65,6 +66,10 @@ public class SocketCommService extends Service {
     }
     socketVOList.clear();
     onCloseSocket();
+
+    WritableMap params = Arguments.createMap(); // add here the data you want to
+    params.putBoolean("status", false);
+    jsModule.emit("serviceStatus", params);
   }
 
   @WorkerThread
@@ -136,12 +141,11 @@ public class SocketCommService extends Service {
           sendSocketLog("소켓 서버 Exception", e);
           e.printStackTrace();
         } finally {
-          mGoodpharmTabletProtocolModule.resetSocketService();
+//          mGoodpharmTabletProtocolModule.resetSocketService();
         }
       }
     };
     mThread2.start();
-
   }
 
   public class SocketBinder extends Binder {
