@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 import { GPTText } from '../../components';
-import color from 'src/utils/color';
+import color from '../../utils/color';
 
 export interface State {}
 
