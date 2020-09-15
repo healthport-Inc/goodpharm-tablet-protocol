@@ -226,8 +226,7 @@ const usePacketReceiver = (
       serviceEventListener.remove();
       socketLogListener.remove();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [buildType, callBack]);
 
   return { serviceStatus };
 };
