@@ -15,14 +15,14 @@ export interface BasePacketType {
   userName: string;
   userToken: string;
   drugSeq: string;
-  askDate: string;
 }
 
 export interface DIREPacketType {
   command: 'DIRE';
 }
 export interface CommonPacketType extends BasePacketType {
-  command: 'AUTH' | 'DIREN' | 'REMO';
+  command: 'AUTH' | 'DIREN' | 'REMO' | 'COMPC';
+  askDate: string;
 }
 export interface AGREPacketType {
   command: 'AGRE';
@@ -33,10 +33,12 @@ export interface NAGREPacketType {
 export interface AUTHCPacketType extends BasePacketType {
   command: 'AUTHC';
   phoneArray: string[];
+  askDate: string;
 }
 export interface DIREUPacketType extends BasePacketType {
   command: 'DIREU';
   phoneArray: string[];
+  askDate: string;
 }
 
 // kiosk 전용
@@ -47,9 +49,9 @@ export interface BEBARPacketType {
 export interface PRESPacketType extends BasePacketType {
   command: 'PRES';
   hospital: string;
-  //총 약제비
-  //본인부담금
-  //보험청구액
+  totalPrice: string;
+  realPrice: string;
+  insertPrice: string;
   isDust: boolean;
 }
 

@@ -77,7 +77,6 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void closeSocketService() {
-    bindingActivity.stopService(mGoodpharmSocketServiceIntent);
     if (bindingActivity != null) {
       bindingActivity.unbindService(mServiceConnection);
     }

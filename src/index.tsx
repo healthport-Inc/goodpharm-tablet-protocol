@@ -46,12 +46,35 @@ const handlePacket = (packetString: string): PacketType => {
   }
   const command = packetArray[0].split('=')[1];
   const body = packetArray[1].split('=')[1];
-  if (command === 'DIRE') {
+  if (command === 'DIRE' || command === 'BEBAR') {
     return {
       command,
     };
   }
   const bodyArray = body.split('|');
+
+  if (command === 'PRES') {
+    const drugSeq = bodyArray[0];
+    const userName = bodyArray[1];
+    const userToken = bodyArray[2];
+    const hospital = bodyArray[3];
+    const totalPrice = bodyArray[4];
+    const realPrice = bodyArray[5];
+    const insertPrice = bodyArray[6];
+    const isDust = bodyArray[7] === '1';
+
+    return {
+      command,
+      drugSeq,
+      userName,
+      userToken,
+      hospital,
+      totalPrice,
+      realPrice,
+      insertPrice,
+      isDust,
+    };
+  }
 
   if (
     bodyArray[0] === undefined ||
@@ -65,7 +88,12 @@ const handlePacket = (packetString: string): PacketType => {
   const userToken = bodyArray[1];
   const drugSeq = bodyArray[2];
 
-  if (command === 'AUTH') {
+  if (
+    command === 'AUTH' ||
+    command === 'COMPC' ||
+    command === 'DIREN' ||
+    command === 'REMO'
+  ) {
     if (bodyArray[3] === undefined) {
       sendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
@@ -115,34 +143,34 @@ const handlePacket = (packetString: string): PacketType => {
       askDate,
       phoneArray,
     };
-  } else if (command === 'DIREN') {
-    if (bodyArray[3] === undefined) {
-      sendPacket(ERROR_PACKET_HEADER + packetString);
-      return undefined;
-    }
-    const askDate = bodyArray[3];
+    // } else if (command === 'DIREN') {
+    //   if (bodyArray[3] === undefined) {
+    //     sendPacket(ERROR_PACKET_HEADER + packetString);
+    //     return undefined;
+    //   }
+    //   const askDate = bodyArray[3];
 
-    return {
-      command,
-      userName,
-      userToken,
-      drugSeq,
-      askDate,
-    };
-  } else if (command === 'REMO') {
-    if (bodyArray[3] === undefined) {
-      sendPacket(ERROR_PACKET_HEADER + packetString);
-      return undefined;
-    }
-    const askDate = bodyArray[3];
+    //   return {
+    //     command,
+    //     userName,
+    //     userToken,
+    //     drugSeq,
+    //     askDate,
+    //   };
+    // } else if (command === 'REMO') {
+    //   if (bodyArray[3] === undefined) {
+    //     sendPacket(ERROR_PACKET_HEADER + packetString);
+    //     return undefined;
+    //   }
+    //   const askDate = bodyArray[3];
 
-    return {
-      command,
-      userName,
-      userToken,
-      drugSeq,
-      askDate,
-    };
+    //   return {
+    //     command,
+    //     userName,
+    //     userToken,
+    //     drugSeq,
+    //     askDate,
+    //   };
   } else {
     sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
