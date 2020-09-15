@@ -17,7 +17,7 @@ const reset = () => resetSocketService();
 export default function App() {
   const [buildType, setBuildType] = useState<'dev' | 'prod'>('dev');
   const { serviceStatus } = usePacketReceiver((packet, rawPacket) => {
-    console.log(rawPacket, packet);
+    console.log('rawPacket: ', rawPacket, 'packet: ', packet);
     setPacket(rawPacket);
     setObject(packet);
   }, buildType);
@@ -34,10 +34,10 @@ export default function App() {
   const toggleBuildType = () =>
     setBuildType((prev) => (prev === 'dev' ? 'prod' : 'dev'));
 
-  const sendProcessedPacket = async (header: string, originPacket: string) => {
+  const sendProcessedPacket = async (originPacket: string) => {
     const message =
       buildType === 'prod' ? await encrypt(originPacket) : originPacket;
-    sendPacket(header + message);
+    sendPacket(message);
   };
 
   return (
@@ -66,7 +66,7 @@ export default function App() {
               <Button
                 title="보내기"
                 onPress={() => {
-                  sendProcessedPacket('Command=BEBAR&Body=', '');
+                  sendProcessedPacket('Command=BEBAR&Body=' + '');
                 }}
               />
             </View>
@@ -83,7 +83,7 @@ export default function App() {
               <Button
                 title="보내기"
                 onPress={() => {
-                  sendProcessedPacket('Command=BARC&Body=', barcode);
+                  sendProcessedPacket('Command=BARC&Body=' + barcode);
                 }}
               />
             </View>
@@ -100,7 +100,7 @@ export default function App() {
               <Button
                 title="보내기"
                 onPress={() => {
-                  sendProcessedPacket('Command=DUSTR&Body=', dustDrugSeq);
+                  sendProcessedPacket('Command=DUSTR&Body=' + dustDrugSeq);
                 }}
               />
             </View>
@@ -112,7 +112,7 @@ export default function App() {
               <Button
                 title="보내기"
                 onPress={() => {
-                  sendProcessedPacket('Command=REBAR&Body=', '');
+                  sendProcessedPacket('Command=REBAR&Body=' + '');
                 }}
               />
             </View>
@@ -129,7 +129,7 @@ export default function App() {
               <Button
                 title="보내기"
                 onPress={() => {
-                  sendProcessedPacket('Command=PAYI&Body=', paymentInfo);
+                  sendProcessedPacket('Command=PAYI&Body=' + paymentInfo);
                 }}
               />
             </View>

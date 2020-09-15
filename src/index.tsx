@@ -34,6 +34,7 @@ type GoodpharmTabletProtocolType = {
 };
 
 const handlePacket = (packetString: string): PacketType => {
+  console.log('packetString', packetString);
   const packetArray = packetString.split('&');
   if (
     packetArray[0] === undefined ||
@@ -45,12 +46,19 @@ const handlePacket = (packetString: string): PacketType => {
     return undefined;
   }
   const command = packetArray[0].split('=')[1];
-  const body = packetArray[1].split('=')[1];
   if (command === 'DIRE' || command === 'BEBAR') {
     return {
       command,
     };
   }
+
+  const body = packetArray[1].split('=')[1];
+
+  if (body === null) {
+    sendPacket(ERROR_PACKET_HEADER + packetString);
+    return undefined;
+  }
+
   const bodyArray = body.split('|');
 
   if (command === 'PRES') {
@@ -143,34 +151,7 @@ const handlePacket = (packetString: string): PacketType => {
       askDate,
       phoneArray,
     };
-    // } else if (command === 'DIREN') {
-    //   if (bodyArray[3] === undefined) {
-    //     sendPacket(ERROR_PACKET_HEADER + packetString);
-    //     return undefined;
-    //   }
-    //   const askDate = bodyArray[3];
-
-    //   return {
-    //     command,
-    //     userName,
-    //     userToken,
-    //     drugSeq,
-    //     askDate,
-    //   };
-    // } else if (command === 'REMO') {
-    //   if (bodyArray[3] === undefined) {
-    //     sendPacket(ERROR_PACKET_HEADER + packetString);
-    //     return undefined;
-    //   }
-    //   const askDate = bodyArray[3];
-
-    //   return {
-    //     command,
-    //     userName,
-    //     userToken,
-    //     drugSeq,
-    //     askDate,
-    //   };
+  } else if (command === 'ERRKI') {
   } else {
     sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
@@ -195,7 +176,7 @@ const usePacketReceiver = (
       'receivePacket',
       async (event: { packet: string }) => {
         try {
-          console.log(event);
+          console.log('event', event);
           const packet =
             buildType === 'dev'
               ? event.packet

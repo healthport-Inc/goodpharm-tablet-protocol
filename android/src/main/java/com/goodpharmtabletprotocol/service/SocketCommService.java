@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import android.util.Log;
 import androidx.annotation.WorkerThread;
 
 import com.facebook.react.ReactApplication;
@@ -111,11 +112,11 @@ public class SocketCommService extends Service {
                     final String line = bufReader.readLine();
                     if (line == null)
                       break;
-
+                    Log.d("dotdot", line);
                     WritableMap packetParams = Arguments.createMap(); // add here the data you want to
                     // 패킷 수신
                     sendSocketLog("태블릿이 파라미터 받음 " + line.replace("&", "?"));
-                    packetParams.putString("packet", line);
+                    packetParams.putString("packet", line.trim());
                     jsModule.emit("receivePacket", packetParams);
                   }
                   sendSocketLog("정상 연결종료");
