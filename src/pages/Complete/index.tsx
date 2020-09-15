@@ -5,13 +5,11 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { GPTText } from '../../components';
 import color from '../../utils/color';
 
-export interface State {}
-
-interface Props {
+export interface CompleteProps {
   userName: string;
 }
 
-const Complete = ({ userName }: Props) => {
+const Complete = ({ userName }: CompleteProps) => {
   return (
     <View style={styles.container}>
       <View style={{ marginLeft: 110 }}>

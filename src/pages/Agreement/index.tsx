@@ -17,15 +17,7 @@ import {
   AgreementButton,
 } from '../../components';
 
-export interface State {
-  serviceTerm: boolean;
-  personalInfoTerm: boolean;
-  sensualTerm: boolean;
-  flag: TermEnum;
-  modalVisible: boolean;
-}
-
-interface Props {
+export interface AgreementProps {
   resetTimer: () => void;
   agreement: boolean;
   toggleAgreement: () => void;
@@ -39,7 +31,7 @@ const Agreement = ({
   toggleAgreement,
   userName,
   onPressBackButton,
-}: Props) => {
+}: AgreementProps) => {
   const [serviceTerm, setServiceTerm] = useState<boolean>(false);
   const [personalInfoTerm, setPersonalInfoTerm] = useState<boolean>(false);
   const [sensualTerm, setSensualTerm] = useState<boolean>(false);

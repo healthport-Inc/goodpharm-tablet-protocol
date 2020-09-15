@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { GPTHeader, GPTText, NumberInput } from '../../components';
 import color from '../../utils/color';
 
-export interface Props {
+export interface ETCInputPhoneProps {
   onPressBackButton: () => void;
   resetTimer: () => void;
   agreeAndConfirmButton: (phoneNumber: string) => void;
@@ -16,7 +16,7 @@ const ETCInputPhone = ({
   resetTimer,
   agreeAndConfirmButton,
   userName,
-}: Props) => {
+}: ETCInputPhoneProps) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [middleNumber, setMiddleNumber] = useState<string>('••••');
   const [lastNumber, setLastNumber] = useState<string>('••••');

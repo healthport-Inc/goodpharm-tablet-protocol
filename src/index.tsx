@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
-import { GoodpharmScreens } from './pages';
+import GoodpharmScreens from './pages';
 
 import type {
   PacketType,

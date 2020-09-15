@@ -33,7 +33,7 @@ const renderDataLow = (title: string, description: string) => {
   );
 };
 
-export interface Props {
+export interface OTCInputPhoneProps {
   onPressBackButton: () => void;
   resetTimer: () => void;
   agreeAndConfirmButton: (phoneNumber: string) => void;
@@ -45,7 +45,7 @@ const OTCInputPhone = ({
   agreeAndConfirmButton,
   data,
   onPressBackButton,
-}: Props) => {
+}: OTCInputPhoneProps) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [middleNumber, setMiddleNumber] = useState<string>('••••');
   const [lastNumber, setLastNumber] = useState<string>('••••');
