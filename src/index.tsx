@@ -1,9 +1,22 @@
 import { useState, useEffect } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
-import { Screens } from './pages';
+import { GoodpharmScreens } from './pages';
 
-import type { PacketType } from './interface';
+import type {
+  PacketType,
+  VideoInfo,
+  TermEnum,
+  BasePacketType,
+  DIREPacketType,
+  CommonPacketType,
+  AGREPacketType,
+  NAGREPacketType,
+  AUTHCPacketType,
+  DIREUPacketType,
+  BEBARPacketType,
+  PRESPacketType,
+} from './interface';
 
 const {
   sendPacket,
@@ -196,6 +209,21 @@ const GoodpharmTabletProtocol = {
   usePacketReceiver,
 };
 
-export { Screens };
+export { GoodpharmScreens };
 
 export default GoodpharmTabletProtocol;
+
+export type {
+  PacketType,
+  VideoInfo,
+  TermEnum,
+  BasePacketType,
+  DIREPacketType,
+  CommonPacketType,
+  AGREPacketType,
+  NAGREPacketType,
+  AUTHCPacketType,
+  DIREUPacketType,
+  BEBARPacketType,
+  PRESPacketType,
+};

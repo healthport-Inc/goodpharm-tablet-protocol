@@ -3,7 +3,7 @@ import Complete from './Complete';
 import ETCInputPhone from './ETCInputPhone';
 import OTCInputPhone from './OTCInputPhone';
 
-export const Screens = {
+export const GoodpharmScreens = {
   Agreement,
   Complete,
   ETCInputPhone,
