@@ -34,7 +34,6 @@ type GoodpharmTabletProtocolType = {
 };
 
 const handlePacket = (packetString: string): PacketType => {
-  console.log('packetString', packetString);
   const packetArray = packetString.split('&');
   if (
     packetArray[0] === undefined ||
@@ -171,12 +170,10 @@ const usePacketReceiver = (
     const eventEmitter = new NativeEventEmitter(
       NativeModules.GoodpharmTabletProtocol
     );
-    console.log('make hook');
     const packetEventListener = eventEmitter.addListener(
       'receivePacket',
       async (event: { packet: string }) => {
         try {
-          console.log('event', event);
           const packet =
             buildType === 'dev'
               ? event.packet
@@ -191,7 +188,6 @@ const usePacketReceiver = (
     const serviceEventListener = eventEmitter.addListener(
       'serviceStatus',
       (event: { status: boolean }) => {
-        console.log('event.status', event);
         setServiceStatus(event.status);
       }
     );

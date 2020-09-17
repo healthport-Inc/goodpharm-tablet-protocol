@@ -45,24 +45,17 @@ export default function App() {
       <Text>service : {serviceStatus ? '켜짐' : '꺼짐'}</Text>
       {serviceStatus ? (
         <>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginVertical: 16,
-              justifyContent: 'space-between',
-              width: 220,
-            }}
-          >
+          <View style={styles.closeContainer}>
             <Button title="close" onPress={close} />
             <Button title="재시작" onPress={reset} />
             <Button title={buildType} onPress={toggleBuildType} />
           </View>
-          <Text style={{ marginVertical: 12 }}>{packet}</Text>
+          <Text style={styles.packet}>{packet}</Text>
           <Text>{JSON.stringify(object)}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ width: 150 }}>command=BEBAR</Text>
-            <View style={{ width: 900, marginHorizontal: 20 }} />
-            <View style={{ justifyContent: 'center', width: 80 }}>
+          <View style={styles.rowAndCenter}>
+            <Text style={styles.title}>command=BEBAR</Text>
+            <View style={styles.input} />
+            <View style={styles.buttonContainer}>
               <Button
                 title="보내기"
                 onPress={() => {
@@ -71,15 +64,15 @@ export default function App() {
               />
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ width: 150 }}>command=BARC</Text>
+          <View style={styles.rowAndCenter}>
+            <Text style={styles.title}>command=BARC</Text>
             <TextInput
               onChange={(e) => setBarcode(e.nativeEvent.text)}
               value={barcode}
               multiline
-              style={{ width: 900, marginHorizontal: 20 }}
+              style={styles.input}
             />
-            <View style={{ justifyContent: 'center', width: 80 }}>
+            <View style={styles.buttonContainer}>
               <Button
                 title="보내기"
                 onPress={() => {
@@ -88,15 +81,15 @@ export default function App() {
               />
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ width: 150 }}>command=DUSTR</Text>
+          <View style={styles.rowAndCenter}>
+            <Text style={styles.title}>command=DUSTR</Text>
             <TextInput
               onChange={(e) => setDustDrugSeq(e.nativeEvent.text)}
               value={dustDrugSeq}
               multiline
-              style={{ width: 900, marginHorizontal: 20 }}
+              style={styles.input}
             />
-            <View style={{ justifyContent: 'center', width: 80 }}>
+            <View style={styles.buttonContainer}>
               <Button
                 title="보내기"
                 onPress={() => {
@@ -105,10 +98,10 @@ export default function App() {
               />
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ width: 150 }}>command=REBAR</Text>
-            <View style={{ width: 900, marginHorizontal: 20 }} />
-            <View style={{ justifyContent: 'center', width: 80 }}>
+          <View style={styles.rowAndCenter}>
+            <Text style={styles.title}>command=REBAR</Text>
+            <View style={styles.input} />
+            <View style={styles.buttonContainer}>
               <Button
                 title="보내기"
                 onPress={() => {
@@ -117,15 +110,15 @@ export default function App() {
               />
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ width: 150 }}>command=PAYI</Text>
+          <View style={styles.rowAndCenter}>
+            <Text style={styles.title}>command=PAYI</Text>
             <TextInput
               onChange={(e) => setPaymentInfo(e.nativeEvent.text)}
               value={paymentInfo}
               multiline
-              style={{ width: 900, marginHorizontal: 20 }}
+              style={styles.input}
             />
-            <View style={{ justifyContent: 'center', width: 80 }}>
+            <View style={styles.buttonContainer}>
               <Button
                 title="보내기"
                 onPress={() => {
@@ -148,4 +141,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  rowAndCenter: { flexDirection: 'row', alignItems: 'center' },
+  title: { width: 150 },
+  buttonContainer: { justifyContent: 'center', width: 80 },
+  input: { width: 900, marginHorizontal: 20 },
+  closeContainer: {
+    flexDirection: 'row',
+    marginVertical: 16,
+    justifyContent: 'space-between',
+    width: 220,
+  },
+  packet: { marginVertical: 12 },
 });
