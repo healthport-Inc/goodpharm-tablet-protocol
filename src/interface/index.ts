@@ -55,6 +55,12 @@ export interface PRESPacketType extends BasePacketType {
   isDust: boolean;
 }
 
+export interface ERRKIPacketType {
+  command: 'ERRKI';
+  code: string;
+  message: string;
+}
+
 export type PacketType =
   | DIREPacketType
   | CommonPacketType
@@ -64,4 +70,5 @@ export type PacketType =
   | DIREUPacketType
   | BEBARPacketType
   | PRESPacketType
+  | ERRKIPacketType
   | undefined;

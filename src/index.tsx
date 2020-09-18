@@ -16,6 +16,7 @@ import type {
   DIREUPacketType,
   BEBARPacketType,
   PRESPacketType,
+  ERRKIPacketType,
 } from './interface';
 
 const {
@@ -80,6 +81,16 @@ const handlePacket = (packetString: string): PacketType => {
       realPrice,
       insertPrice,
       isDust,
+    };
+  }
+
+  if (command === 'ERRKI') {
+    const code = bodyArray[0];
+    const message = bodyArray[1];
+    return {
+      command,
+      code,
+      message,
     };
   }
 
@@ -150,7 +161,6 @@ const handlePacket = (packetString: string): PacketType => {
       askDate,
       phoneArray,
     };
-  } else if (command === 'ERRKI') {
   } else {
     sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
@@ -232,4 +242,5 @@ export type {
   DIREUPacketType,
   BEBARPacketType,
   PRESPacketType,
+  ERRKIPacketType,
 };
