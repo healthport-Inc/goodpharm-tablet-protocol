@@ -1,6 +1,6 @@
 import React from 'react';
 import GPTText from '../GPTText';
-import {TouchableOpacity, Image, View, StyleSheet} from 'react-native';
+import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import color from '../../utils/color';
 
 interface Props {
@@ -47,7 +47,8 @@ class AgreementButton extends React.Component<Props, States> {
           onPress={() => {
             checkTerm && checkTerm();
           }}
-          disabled={checkTerm === undefined}>
+          disabled={checkTerm === undefined}
+        >
           <GPTText style={[styles.flex, styles.text]} fontWeight={200}>
             {children}
           </GPTText>
@@ -55,10 +56,12 @@ class AgreementButton extends React.Component<Props, States> {
         <TouchableOpacity
           onPress={() => {
             viewTerm();
-          }}>
+          }}
+        >
           <GPTText
             style={[styles.textButton, right ? styles.rightRow : {}]}
-            fontWeight={200}>
+            fontWeight={200}
+          >
             보기
           </GPTText>
         </TouchableOpacity>
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginLeft: 45,
   },
-  flex: {flex: 1},
+  flex: { flex: 1 },
   text: {
     fontSize: 16,
     color: color.black,

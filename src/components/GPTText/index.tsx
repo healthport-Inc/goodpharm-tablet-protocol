@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TextStyle} from 'react-native';
+import { StyleSheet, Text, TextStyle } from 'react-native';
 
 export interface Props {
   style?: TextStyle | TextStyle[];
@@ -35,7 +35,7 @@ export default class GPText extends React.Component<Props, State> {
   componentDidMount = (): void => {};
 
   render = (): JSX.Element => {
-    const {children, style, fontWeight} = this.props;
+    const { children, style, fontWeight } = this.props;
     const fontWeightKey: fontWeightDefine = calculateFontWeight(fontWeight);
     return (
       <Text
@@ -45,7 +45,8 @@ export default class GPText extends React.Component<Props, State> {
           fontWeightKey === fontWeightDefine.Regular && styles.regular,
           fontWeightKey === fontWeightDefine.light && styles.light,
           style,
-        ]}>
+        ]}
+      >
         {children}
       </Text>
     );

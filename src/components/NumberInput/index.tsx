@@ -22,13 +22,14 @@ type ButtonProps = {
 };
 
 const Button = (props: ButtonProps) => {
-  const {imagePath, onPress, number, imageStyle, textStyle} = props;
+  const { imagePath, onPress, number, imageStyle, textStyle } = props;
   return (
     <View style={styles.flex}>
       <TouchableOpacity
         style={styles.flex}
         onPress={() => onPress()}
-        hitSlop={{top: 10, bottom: 10, left: 40, right: 40}}>
+        hitSlop={{ top: 10, bottom: 10, left: 40, right: 40 }}
+      >
         <View style={styles.buttonArea}>
           {imagePath ? (
             <Image
@@ -38,7 +39,8 @@ const Button = (props: ButtonProps) => {
           ) : (
             <GPTText
               style={[styles.buttonText, textStyle ? textStyle : {}]}
-              fontWeight={200}>
+              fontWeight={200}
+            >
               {number}
             </GPTText>
           )}
@@ -175,7 +177,7 @@ class NumberInput extends React.PureComponent<Props, States> {
 export default NumberInput;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, alignItems: 'center'},
+  flex: { flex: 1, alignItems: 'center' },
   container: {
     width: 548,
   },
@@ -203,5 +205,5 @@ const styles = StyleSheet.create({
     width: 62,
     height: 62,
   },
-  row: {flex: 1, flexDirection: 'row'},
+  row: { flex: 1, flexDirection: 'row' },
 });

@@ -23,6 +23,7 @@ export interface AgreementProps {
   // toggleAgreement: () => void;
   userName: string;
   onPressBackButton: () => void;
+  navigateToComplete: () => void;
 }
 
 const Agreement = ({
@@ -31,6 +32,7 @@ const Agreement = ({
   // toggleAgreement,
   userName,
   onPressBackButton,
+  navigateToComplete,
 }: AgreementProps) => {
   const [serviceTerm, setServiceTerm] = useState<boolean>(false);
   const [personalInfoTerm, setPersonalInfoTerm] = useState<boolean>(false);
@@ -85,9 +87,10 @@ const Agreement = ({
     viewTerm(TermEnum.personalInfoNotice);
   };
 
-  const navigateToComplete = () => {
+  const _navigateToComplete = () => {
     //AURTA
     resetTimer();
+    navigateToComplete();
   };
 
   const totalAgree: boolean = personalInfoTerm && sensualTerm && serviceTerm; //&& agreement;
@@ -188,7 +191,10 @@ const Agreement = ({
             : { backgroundColor: color.theme2 },
         ]}
       >
-        <TouchableOpacity onPress={navigateToComplete} disabled={!requireAgree}>
+        <TouchableOpacity
+          onPress={_navigateToComplete}
+          disabled={!requireAgree}
+        >
           <View style={styles.allowButton}>
             <GPTText
               style={[
