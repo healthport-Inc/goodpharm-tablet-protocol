@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, DependencyList } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
 import GoodpharmScreens from './pages';
@@ -163,6 +163,7 @@ const GoodpharmModule: GoodpharmTabletProtocolType = {
 
 const usePacketReceiver = (
   callBack: (packet: PacketType, rawPacket: string) => void,
+  deps: DependencyList,
   buildType: 'dev' | 'prod'
 ) => {
   const [serviceStatus, setServiceStatus] = useState<boolean>(false);
@@ -203,7 +204,8 @@ const usePacketReceiver = (
       serviceEventListener.remove();
       socketLogListener.remove();
     };
-  }, [buildType, callBack]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buildType, callBack, ...deps]);
 
   return { serviceStatus };
 };

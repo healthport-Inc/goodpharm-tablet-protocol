@@ -16,11 +16,15 @@ const reset = () => resetSocketService();
 
 export default function App() {
   const [buildType, setBuildType] = useState<'dev' | 'prod'>('dev');
-  const { serviceStatus } = usePacketReceiver((packet, rawPacket) => {
-    console.log('rawPacket: ', rawPacket, 'packet: ', packet);
-    setPacket(rawPacket);
-    setObject(packet);
-  }, buildType);
+  const { serviceStatus } = usePacketReceiver(
+    (packet, rawPacket) => {
+      console.log('rawPacket: ', rawPacket, 'packet: ', packet);
+      setPacket(rawPacket);
+      setObject(packet);
+    },
+    [],
+    buildType
+  );
   const [packet, setPacket] = useState('');
   const [object, setObject] = useState<any>(undefined);
   const [barcode, setBarcode] = useState(

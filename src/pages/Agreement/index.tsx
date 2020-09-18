@@ -19,16 +19,16 @@ import {
 
 export interface AgreementProps {
   resetTimer: () => void;
-  agreement: boolean;
-  toggleAgreement: () => void;
+  // agreement: boolean;
+  // toggleAgreement: () => void;
   userName: string;
   onPressBackButton: () => void;
 }
 
 const Agreement = ({
   resetTimer,
-  agreement,
-  toggleAgreement,
+  // agreement,
+  // toggleAgreement,
   userName,
   onPressBackButton,
 }: AgreementProps) => {
@@ -58,13 +58,13 @@ const Agreement = ({
     viewTerm(TermEnum.service);
   };
 
-  const setMarketingTerm = () => {
-    resetTimer();
-    toggleAgreement();
-  };
-  const viewMarketingTerm = () => {
-    viewTerm(TermEnum.marketing);
-  };
+  // const setMarketingTerm = () => {
+  //   resetTimer();
+  //   toggleAgreement();
+  // };
+  // const viewMarketingTerm = () => {
+  //   viewTerm(TermEnum.marketing);
+  // };
 
   const togglePersonalInfo = () => {
     resetTimer();
@@ -90,8 +90,7 @@ const Agreement = ({
     resetTimer();
   };
 
-  const totalAgree: boolean =
-    personalInfoTerm && sensualTerm && serviceTerm && agreement;
+  const totalAgree: boolean = personalInfoTerm && sensualTerm && serviceTerm; //&& agreement;
   const requireAgree: boolean = personalInfoTerm && sensualTerm && serviceTerm;
   return (
     <View style={styles.container}>
@@ -147,14 +146,14 @@ const Agreement = ({
           >
             [필수] 굿팜 서비스 이용 약관
           </AgreementButton>
-          <AgreementButton
+          {/* <AgreementButton
             checked={agreement}
             viewTerm={viewMarketingTerm}
             checkTerm={setMarketingTerm}
             right
           >
             [선택] 서비스 마케팅 정보 수신 동의
-          </AgreementButton>
+          </AgreementButton> */}
           <AgreementButton
             checked={personalInfoTerm}
             viewTerm={viewPersonalInfo}
