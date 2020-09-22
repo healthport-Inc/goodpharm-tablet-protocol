@@ -3,7 +3,7 @@ export default {
   theme1: '#00bca7',
   theme2: '#1db8a7',
   theme3: '#d9fffa',
-  theme4: '2cc2bc',
+  theme4: '#2cc2bc',
   gray: '#333536',
   gray1: '#dddddd',
   gray2: '#b0b0b0',
