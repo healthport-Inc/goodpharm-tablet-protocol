@@ -100,8 +100,10 @@ const Agreement = ({
       <GPTHeader onPressBackButton={onPressBackButton} />
       <View style={styles.descriptionContainer}>
         <Text style={styles.nameTextBase}>
-          <GPTText style={{ color: color.theme0 }}>{userName}</GPTText>
-          <GPTText>님</GPTText>
+          <GPTText style={{ color: color.theme0 }} fontWeight={500}>
+            {userName}
+          </GPTText>
+          <GPTText fontWeight={500}>님</GPTText>
         </Text>
         <Text style={styles.titleTextBase}>
           <GPTText style={{ color: color.theme0 }}>굿팜</GPTText>
@@ -283,7 +285,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   allowButtonText: {
-    fontSize: 36,
+    fontSize: 40,
     lineHeight: 50,
     letterSpacing: 2,
   },

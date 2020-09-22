@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     marginRight: 80,
     marginBottom: 80,
     alignSelf: 'flex-end',
+    marginLeft: -40,
   },
 });
 

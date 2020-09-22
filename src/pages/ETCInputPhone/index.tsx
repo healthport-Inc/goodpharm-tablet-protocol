@@ -84,10 +84,10 @@ const ETCInputPhone = ({
         <View style={[styles.flex, styles.leftContent]}>
           <View style={[styles.flex, styles.infoArea]}>
             <Text style={styles.nameTextBase}>
-              <GPTText style={{ color: color.theme0 }} fontWeight={300}>
+              <GPTText style={{ color: color.theme0 }} fontWeight={500}>
                 {userName}
               </GPTText>
-              <GPTText style={{ color: color.black }} fontWeight={300}>
+              <GPTText style={{ color: color.black }} fontWeight={500}>
                 님
               </GPTText>
             </Text>
@@ -128,11 +128,11 @@ const ETCInputPhone = ({
             </GPTText>
             <View style={styles.phoneArea}>
               <Text style={styles.phoneText}>
-                <GPTText fontWeight={200}>010</GPTText>
+                <GPTText fontWeight={500}>010</GPTText>
                 <GPTText> - </GPTText>
-                <GPTText fontWeight={200}>{middleNumber}</GPTText>
+                <GPTText fontWeight={500}>{middleNumber}</GPTText>
                 <GPTText> - </GPTText>
-                <GPTText fontWeight={200}>{lastNumber}</GPTText>
+                <GPTText fontWeight={500}>{lastNumber}</GPTText>
               </Text>
               <View style={styles.separator} />
               <View>
@@ -167,7 +167,7 @@ const ETCInputPhone = ({
               <GPTText
                 style={[
                   {
-                    color: disabled ? color.blueGrey : color.theme3,
+                    color: disabled ? color.blueGrey : color.white,
                   },
                   styles.buttonText,
                 ]}
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 24,
     letterSpacing: -0.5,
-    color: color.gray7,
+    color: color.blueGrey,
   },
   button: {
     width: '100%',
