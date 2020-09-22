@@ -58,20 +58,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nameBaseText: {
-    fontSize: 46,
+    fontSize: 50,
     color: color.white,
-    lineHeight: 51,
+    lineHeight: 62,
     marginBottom: 10,
   },
   subTitleText: {
-    fontSize: 42,
+    fontSize: 50,
     lineHeight: 62,
     marginBottom: 40,
     color: color.white,
   },
   descriptionTextBase: {
-    fontSize: 22,
-    lineHeight: 36,
+    fontSize: 34,
+    lineHeight: 50,
     color: color.white,
   },
   image: {

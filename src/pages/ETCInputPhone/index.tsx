@@ -84,7 +84,7 @@ const ETCInputPhone = ({
         <View style={[styles.flex, styles.leftContent]}>
           <View style={[styles.flex, styles.infoArea]}>
             <Text style={styles.nameTextBase}>
-              <GPTText style={{ color: color.theme2 }} fontWeight={300}>
+              <GPTText style={{ color: color.theme0 }} fontWeight={300}>
                 {userName}
               </GPTText>
               <GPTText style={{ color: color.black }} fontWeight={300}>
@@ -95,7 +95,7 @@ const ETCInputPhone = ({
               <GPTText
                 style={[
                   {
-                    color: color.theme2,
+                    color: color.theme0,
                   },
                   styles.subTitleBase,
                 ]}
@@ -167,7 +167,7 @@ const ETCInputPhone = ({
               <GPTText
                 style={[
                   {
-                    color: disabled ? color.gray4 : color.theme3,
+                    color: disabled ? color.blueGrey : color.theme3,
                   },
                   styles.buttonText,
                 ]}
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 34 },
+  buttonText: { fontSize: 40 },
 });
 
 export default ETCInputPhone;

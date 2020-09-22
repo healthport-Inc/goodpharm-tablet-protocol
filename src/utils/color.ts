@@ -1,8 +1,9 @@
 export default {
-  theme0: '#2cc2bc',
+  theme0: '#04a6a0',
   theme1: '#00bca7',
   theme2: '#1db8a7',
   theme3: '#d9fffa',
+  theme4: '2cc2bc',
   gray: '#333536',
   gray1: '#dddddd',
   gray2: '#b0b0b0',
@@ -19,7 +20,8 @@ export default {
   gray13: '#565858',
   black: '#000000',
   white: '#ffffff',
-  yellow: '#fff14e',
+  yellow: '#FFF200',
   mask: 'rgba(20,20,20,0.4)',
   red: '#e55151',
+  blueGrey: '#767a7c',
 };

@@ -100,11 +100,11 @@ const Agreement = ({
       <GPTHeader onPressBackButton={onPressBackButton} />
       <View style={styles.descriptionContainer}>
         <Text style={styles.nameTextBase}>
-          <GPTText style={{ color: color.theme1 }}>{userName}</GPTText>
+          <GPTText style={{ color: color.theme0 }}>{userName}</GPTText>
           <GPTText>님</GPTText>
         </Text>
         <Text style={styles.titleTextBase}>
-          <GPTText style={{ color: color.theme1 }}>굿팜</GPTText>
+          <GPTText style={{ color: color.theme0 }}>굿팜</GPTText>
           <GPTText> 서비스 가입에 동의해주세요.</GPTText>
         </Text>
         <View style={styles.allAgreeButtonContainer}>
@@ -113,8 +113,8 @@ const Agreement = ({
               style={[
                 styles.allAgreeButton,
                 {
-                  borderColor: totalAgree ? color.white : color.theme2,
-                  backgroundColor: totalAgree ? color.theme2 : color.white,
+                  borderColor: totalAgree ? color.white : color.theme4,
+                  backgroundColor: totalAgree ? color.theme4 : color.white,
                 },
               ]}
             >
@@ -130,7 +130,7 @@ const Agreement = ({
                 style={[
                   styles.allAgreeText,
                   {
-                    color: totalAgree ? color.white : color.theme2,
+                    color: totalAgree ? color.white : color.theme4,
                   },
                 ]}
                 fontWeight={500}
@@ -149,28 +149,13 @@ const Agreement = ({
           >
             [필수] 굿팜 서비스 이용 약관
           </AgreementButton>
-          {/* <AgreementButton
-            checked={agreement}
-            viewTerm={viewMarketingTerm}
-            checkTerm={setMarketingTerm}
-            right
-          >
-            [선택] 서비스 마케팅 정보 수신 동의
-          </AgreementButton> */}
           <AgreementButton
             checked={personalInfoTerm}
             viewTerm={viewPersonalInfo}
             checkTerm={togglePersonalInfo}
+            right
           >
             [필수] 굿팜 서비스 개인정보 수집 및 이용 동의
-          </AgreementButton>
-          <AgreementButton
-            checked={personalInfoTerm}
-            viewTerm={viewPersonalInfoNotice}
-            right
-            checkDisable
-          >
-            [고시] 개인정보처리방침
           </AgreementButton>
           <AgreementButton
             checked={sensualTerm}
@@ -178,6 +163,14 @@ const Agreement = ({
             checkTerm={toggleSensualTerm}
           >
             [필수] 굿팜 서비스 민감정보 수집 및 이용 동의
+          </AgreementButton>
+          <AgreementButton
+            checked={personalInfoTerm}
+            viewTerm={viewPersonalInfoNotice}
+            checkDisable
+            right
+          >
+            [고시] 개인정보처리방침
           </AgreementButton>
         </View>
       </View>
@@ -188,7 +181,7 @@ const Agreement = ({
             ? {
                 backgroundColor: color.gray3,
               }
-            : { backgroundColor: color.theme2 },
+            : { backgroundColor: color.theme0 },
         ]}
       >
         <TouchableOpacity
@@ -200,8 +193,8 @@ const Agreement = ({
               style={[
                 styles.allowButtonText,
                 !requireAgree
-                  ? { color: color.gray4 }
-                  : { color: color.theme3 },
+                  ? { color: color.blueGrey }
+                  : { color: color.white },
               ]}
             >
               확인
