@@ -1,5 +1,7 @@
 import { useState, useEffect, DependencyList } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
 import GoodpharmScreens from './pages';
 
@@ -32,6 +34,42 @@ type GoodpharmTabletProtocolType = {
   initSocketService: () => void;
   closeSocketService: () => void;
   resetSocketService: () => void;
+};
+
+export const makeParams = (data: any) => {
+  const params = new URLSearchParams();
+  for (let key in data) {
+    // @ts-ignore
+    params.append(key, data[key]);
+  }
+  return params;
+};
+
+const addTabletLog = async (logMsg: string) => {
+  try {
+    const settingJson = await AsyncStorage.getItem('goodpharm-setting');
+    if (settingJson) {
+      const { tabletId } = JSON.parse(settingJson);
+      if (tabletId) {
+        const params = makeParams({
+          tabletId,
+          logType: 'tablet-protocol',
+          logMsg,
+        });
+
+        await axios.post(
+          `https://api.goodpharm.kr/api/v1/tablet/add/log`,
+          params
+        );
+      } else {
+        console.log('tabletId id not found');
+      }
+    } else {
+      console.log('setting not found');
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const handlePacket = (packetString: string): PacketType => {
@@ -184,6 +222,7 @@ const usePacketReceiver = (
     const packetEventListener = eventEmitter.addListener(
       'receivePacket',
       async (event: { packet: string }) => {
+        addTabletLog(`receive packet ${event.packet}`);
         try {
           const packet =
             buildType === 'dev'
@@ -192,19 +231,22 @@ const usePacketReceiver = (
           const result = handlePacket(packet);
           callBack(result, packet);
         } catch (error) {
-          console.error(error);
+          addTabletLog(`native log listener ${error}`);
+          console.log(error);
         }
       }
     );
     const serviceEventListener = eventEmitter.addListener(
       'serviceStatus',
       (event: { status: boolean }) => {
+        addTabletLog(`service status is ${event.status}`);
         setServiceStatus(event.status);
       }
     );
     const socketLogListener = eventEmitter.addListener(
       'socketLog',
       (event: { msg: string; error?: string }) => {
+        addTabletLog(`native log listener ${event.msg} ${event.error}`);
         console.log(event);
       }
     );
