@@ -148,4 +148,29 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
     }
   }
 
+  @ReactMethod
+  private static void getSocketStatus(Promise promise) {
+    try {
+      WritableMap map = Arguments.createMap();
+
+      map.putBoolean("socketStatus", Globals.socketStatus);
+
+      promise.resolve(map);
+    } catch (Exception e) {
+      promise.reject(e);
+    }
+  }
+
+  @ReactMethod
+  private static void getSocketCount(Promise promise) {
+    try {
+      WritableMap map = Arguments.createMap();
+
+      map.putInt("socketCount", socketVOList.size());
+
+      promise.resolve(map);
+    } catch (Exception e) {
+      promise.reject(e);
+    }
+  }
 }

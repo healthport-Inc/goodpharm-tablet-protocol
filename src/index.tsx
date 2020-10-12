@@ -21,6 +21,7 @@ import type {
 
 const {
   sendPacket,
+  getSocketStatus,
 } = NativeModules.GoodpharmTabletProtocol as GoodpharmTabletProtocolType;
 
 const ERROR_PACKET_HEADER = 'Command=ERROR&Body=';
@@ -32,6 +33,8 @@ type GoodpharmTabletProtocolType = {
   initSocketService: () => void;
   closeSocketService: () => void;
   resetSocketService: () => void;
+  getSocketCount: () => number;
+  getSocketStatus: () => boolean;
 };
 
 const handlePacket = (packetString: string): PacketType => {
@@ -176,7 +179,9 @@ const usePacketReceiver = (
   deps: DependencyList,
   buildType: 'dev' | 'prod'
 ) => {
-  const [serviceStatus, setServiceStatus] = useState<boolean>(false);
+  const [serviceStatus, setServiceStatus] = useState<boolean>(
+    getSocketStatus()
+  );
   useEffect(() => {
     const eventEmitter = new NativeEventEmitter(
       NativeModules.GoodpharmTabletProtocol

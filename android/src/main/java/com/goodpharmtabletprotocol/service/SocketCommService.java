@@ -47,7 +47,7 @@ public class SocketCommService extends Service {
     svContext = getApplicationContext();
     jsModule = ((ReactApplication) svContext).getReactNativeHost().getReactInstanceManager().getCurrentReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
     onConnectSocket();
-
+    Globals.socketStatus = true;
     WritableMap params = Arguments.createMap(); // add here the data you want to
     params.putBoolean("status", true);
     jsModule.emit("serviceStatus", params);
@@ -56,6 +56,7 @@ public class SocketCommService extends Service {
   @Override
   public void onDestroy() {
     super.onDestroy();
+    Globals.socketStatus = false;
     for (SocketVO item : socketVOList) {
       try {
         Globals.onCloseClient(item);

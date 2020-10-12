@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Globals {
+    public static boolean socketStatus = false;
     public static List<SocketVO> socketVOList = new ArrayList<>();
 
     public static void onCloseClient(SocketVO socketVO) {
