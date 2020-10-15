@@ -22,6 +22,7 @@ import type {
 const {
   sendPacket,
   getSocketStatus,
+  getSocketCount,
 } = NativeModules.GoodpharmTabletProtocol as GoodpharmTabletProtocolType;
 
 const ERROR_PACKET_HEADER = 'Command=ERROR&Body=';
@@ -37,7 +38,7 @@ type GoodpharmTabletProtocolType = {
   getSocketStatus: () => boolean;
 };
 
-const handlePacket = (packetString: string): PacketType => {
+export const handlePacket = (packetString: string): PacketType => {
   const packetArray = packetString.split('&');
   if (
     packetArray[0] === undefined ||
@@ -164,6 +165,12 @@ const handlePacket = (packetString: string): PacketType => {
       askDate,
       phoneArray,
     };
+  } else if (
+    packetString.includes(
+      `${String.fromCharCode(52)}D4${String.fromCharCode(28)}`
+    )
+  ) {
+    return undefined;
   } else {
     sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
@@ -182,6 +189,8 @@ const usePacketReceiver = (
   const [serviceStatus, setServiceStatus] = useState<boolean>(
     getSocketStatus()
   );
+  const [serviceCount, setServiceCount] = useState<number>(getSocketCount());
+
   useEffect(() => {
     const eventEmitter = new NativeEventEmitter(
       NativeModules.GoodpharmTabletProtocol
@@ -203,8 +212,9 @@ const usePacketReceiver = (
     );
     const serviceEventListener = eventEmitter.addListener(
       'serviceStatus',
-      (event: { status: boolean }) => {
+      (event: { status: boolean; count: number }) => {
         setServiceStatus(event.status);
+        setServiceCount(event.count);
       }
     );
     const socketLogListener = eventEmitter.addListener(
@@ -222,7 +232,7 @@ const usePacketReceiver = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildType, callBack, ...deps]);
 
-  return { serviceStatus };
+  return { serviceStatus, serviceCount };
 };
 
 const GoodpharmTabletProtocol = {
