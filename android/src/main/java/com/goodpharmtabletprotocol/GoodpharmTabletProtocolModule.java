@@ -94,7 +94,7 @@ public class GoodpharmTabletProtocolModule extends ReactContextBaseJavaModule {
     for (SocketVO item : socketVOList) {
       try {
         PrintWriter socketOut = item.socketOut;
-        socketOut.write(packet + "\n");
+        socketOut.write(packet + "\r\n");
         socketOut.flush();
       } catch (Exception e) {
         Globals.onCloseClient(item);
