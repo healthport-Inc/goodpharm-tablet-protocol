@@ -77,6 +77,13 @@ const addTabletLog = async (logMsg: string) => {
 };
 
 const handlePacket = (packetString: string): PacketType => {
+  if (
+    packetString.includes(String.fromCharCode(2)) &&
+    packetString.includes('D4')
+  ) {
+    return undefined;
+  }
+
   const packetArray = packetString.split('&');
   if (
     packetArray[0] === undefined ||
