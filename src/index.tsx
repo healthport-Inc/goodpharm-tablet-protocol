@@ -136,10 +136,13 @@ const handlePacket = (packetString: string): PacketType => {
   if (command === 'ERRKI') {
     const code = bodyArray[0];
     const message = bodyArray[1];
+    const agentCode = bodyArray[2];
+
     return {
       command,
       code,
       message,
+      agentCode,
     };
   }
 

@@ -58,6 +58,7 @@ export interface PRESPacketType extends BasePacketType {
 export interface ERRKIPacketType {
   command: 'ERRKI';
   code: string;
+  agentCode?: string;
   message: string;
 }
 
