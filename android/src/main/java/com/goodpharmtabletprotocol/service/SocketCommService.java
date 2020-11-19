@@ -47,16 +47,12 @@ public class SocketCommService extends Service {
     svContext = getApplicationContext();
     jsModule = ((ReactApplication) svContext).getReactNativeHost().getReactInstanceManager().getCurrentReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
     onConnectSocket();
-    Globals.socketStatus = true;
-    WritableMap params = Arguments.createMap(); // add here the data you want to
-    params.putBoolean("status", true);
-    jsModule.emit("serviceStatus", params);
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-    Globals.socketStatus = false;
+    setStatus(false);
     for (SocketVO item : socketVOList) {
       try {
         Globals.onCloseClient(item);
@@ -67,9 +63,13 @@ public class SocketCommService extends Service {
     }
     socketVOList.clear();
     onCloseSocket();
+    setStatus(false);
+  }
 
+  private void setStatus(boolean status) {
     WritableMap params = Arguments.createMap(); // add here the data you want to
-    params.putBoolean("status", false);
+    params.putBoolean("status", status);
+    params.putInt("count", socketVOList.size());
     jsModule.emit("serviceStatus", params);
   }
 
@@ -79,6 +79,7 @@ public class SocketCommService extends Service {
       @Override
       public void run() { // 소켓 서버 쓰레드
         try {
+          setStatus(true);
           mServerSocket = new ServerSocket(SOCKET_PORT_NUMBER);
 
           sendSocketLog("서버 소켓 스타트 " + " , " + mServerSocket.toString());
@@ -101,6 +102,7 @@ public class SocketCommService extends Service {
             socketVOList.add(socketVO);
 
             sendSocketLog("소켓 리스트 갯수: " + socketVOList.size() + "개" + "  " + client.toString());
+            setStatus(true);
 
             // Socket thread
             SocketVO finalSocketVO = socketVO;
@@ -127,6 +129,7 @@ public class SocketCommService extends Service {
                   e.printStackTrace();
                 } finally {
                   Globals.onCloseClient(finalSocketVO);
+                  setStatus(true);
                 }
               }
             };
@@ -141,7 +144,7 @@ public class SocketCommService extends Service {
           sendSocketLog("소켓 서버 Exception", e);
           e.printStackTrace();
         } finally {
-//          mGoodpharmTabletProtocolModule.resetSocketService();
+          setStatus(false);
         }
       }
     };

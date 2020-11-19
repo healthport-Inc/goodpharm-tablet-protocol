@@ -19,6 +19,8 @@ import type {
   BEBARPacketType,
   PRESPacketType,
   ERRKIPacketType,
+  NetworkAgentCodeType,
+  AgentCodeType,
 } from './interface';
 
 const {
@@ -134,9 +136,9 @@ const handlePacket = (packetString: string): PacketType => {
   }
 
   if (command === 'ERRKI') {
-    const code = bodyArray[0];
+    const code = bodyArray[0] as NetworkAgentCodeType;
     const message = bodyArray[1];
-    const agentCode = bodyArray[2];
+    const agentCode = bodyArray[2] as AgentCodeType;
 
     return {
       command,
