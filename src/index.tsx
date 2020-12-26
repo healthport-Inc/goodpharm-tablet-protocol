@@ -21,6 +21,11 @@ import type {
   ERRKIPacketType,
   NetworkAgentCodeType,
   AgentCodeType,
+  OTCPacketType,
+  ConfirmPacketType,
+  ResetPacketType,
+  RemovePresPacketType,
+  AuthOtcPacketType,
 } from './interface';
 
 const {
@@ -377,4 +382,9 @@ export type {
   BEBARPacketType,
   PRESPacketType,
   ERRKIPacketType,
+  OTCPacketType,
+  ConfirmPacketType,
+  ResetPacketType,
+  RemovePresPacketType,
+  AuthOtcPacketType,
 };
