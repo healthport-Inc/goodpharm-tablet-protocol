@@ -47,12 +47,52 @@ export interface BEBARPacketType {
   command: 'BEBAR';
 }
 export interface PRESPacketType extends BasePacketType {
-  command: 'PRES';
+  command: 'PRES' | 'PRESS';
   hospital: string;
   totalPrice: string;
   realPrice: string;
   insertPrice: string;
   isDust: boolean;
+}
+
+// otc 추가
+export interface OTCPacketType {
+  command: 'OTCS' | 'OTC';
+  barcode: string;
+  barcodeSeq: number;
+  drugName: string;
+  sellingPrice: number;
+  buyingPrice: number;
+  supName: string;
+  count: number;
+}
+
+export interface OTCItemType {
+  barcodeSeq: number;
+  count: number;
+}
+
+export interface ConfirmPacketType {
+  command: 'CONFE' | 'CONFSP';
+  totalAmount: number;
+  tip: number;
+  tax: number;
+  otcList: OTCItemType[];
+  prescriptions: string[];
+}
+
+export interface ResetPacketType {
+  command: 'RESET';
+}
+
+export interface RemovePresPacketType {
+  command: 'REPRESS';
+  prescriptions: string[];
+}
+
+export interface AuthOtcPacketType {
+  command: 'AUTHOTC';
+  purchaseId: string;
 }
 
 /**
@@ -130,4 +170,9 @@ export type PacketType =
   | BEBARPacketType
   | PRESPacketType
   | ERRKIPacketType
+  | OTCPacketType
+  | ConfirmPacketType
+  | ResetPacketType
+  | RemovePresPacketType
+  | AuthOtcPacketType
   | undefined;

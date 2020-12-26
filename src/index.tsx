@@ -97,7 +97,7 @@ const handlePacket = (packetString: string): PacketType => {
     return undefined;
   }
   const command = packetArray[0].split('=')[1];
-  if (command === 'DIRE' || command === 'BEBAR') {
+  if (command === 'DIRE' || command === 'BEBAR' || command === 'RESET') {
     return {
       command,
     };
@@ -112,7 +112,7 @@ const handlePacket = (packetString: string): PacketType => {
 
   const bodyArray = body.split('|');
 
-  if (command === 'PRES') {
+  if (command === 'PRES' || command === 'PRESS') {
     const drugSeq = bodyArray[0];
     const userName = bodyArray[1];
     const userToken = bodyArray[2];
@@ -148,6 +148,22 @@ const handlePacket = (packetString: string): PacketType => {
     };
   }
 
+  if (command === 'REPRESS') {
+    const prescriptions = bodyArray[0].split(',');
+    return {
+      command,
+      prescriptions,
+    };
+  }
+
+  if (command === 'AUTHOTC') {
+    const purchaseId = bodyArray[0];
+    return {
+      command,
+      purchaseId,
+    };
+  }
+
   if (
     bodyArray[0] === undefined ||
     bodyArray[1] === undefined ||
@@ -156,6 +172,55 @@ const handlePacket = (packetString: string): PacketType => {
     sendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
+
+  if (command === 'OTC' || command === 'OTCS') {
+    const barcode = bodyArray[0];
+    const barcodeSeq = parseInt(bodyArray[1], 10);
+    const drugName = bodyArray[2];
+    const supName = bodyArray[3];
+    const sellingPrice = parseInt(bodyArray[4], 10);
+    const buyingPrice = parseInt(bodyArray[5], 10);
+    const count = parseInt(bodyArray[6], 10);
+
+    return {
+      command,
+      barcode,
+      barcodeSeq,
+      drugName,
+      supName,
+      sellingPrice,
+      buyingPrice,
+      count,
+    };
+  }
+
+  if (command === 'CONFE' || command === 'CONFSP') {
+    const totalAmount = parseInt(bodyArray[0], 10);
+    const tax = parseInt(bodyArray[1], 10);
+    const tip = parseInt(bodyArray[2], 10);
+
+    const otcRawList = bodyArray[3].split(',');
+
+    const otcList = otcRawList.map((v) => {
+      const otcArray = v.split('‡');
+      return {
+        barcodeSeq: parseInt(otcArray[0], 10),
+        count: parseInt(otcArray[1], 10),
+      };
+    });
+
+    const prescriptions = bodyArray[4].split(',');
+
+    return {
+      command,
+      totalAmount,
+      tax,
+      tip,
+      otcList,
+      prescriptions,
+    };
+  }
+
   const userName = bodyArray[0];
   const userToken = bodyArray[1];
   const drugSeq = bodyArray[2];
