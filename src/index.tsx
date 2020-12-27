@@ -208,8 +208,9 @@ const handlePacket = (packetString: string): PacketType => {
       const otcArray = v.split('‡');
       return {
         barcode: otcArray[0],
-        sellingPrice: parseInt(otcArray[1], 10),
-        count: parseInt(otcArray[2], 10),
+        drugName: otcArray[1],
+        sellingPrice: parseInt(otcArray[2], 10),
+        count: parseInt(otcArray[3], 10),
       };
     });
 
