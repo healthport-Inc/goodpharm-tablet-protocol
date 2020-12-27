@@ -200,7 +200,7 @@ const handlePacket = (packetString: string): PacketType => {
   if (command === 'CONFE' || command === 'CONFSP') {
     const totalAmount = parseInt(bodyArray[0], 10);
     const tax = parseInt(bodyArray[1], 10);
-    const tip = parseInt(bodyArray[2], 10);
+    const saleAmount = parseInt(bodyArray[2], 10);
 
     const otcRawList = bodyArray[3].split(',');
 
@@ -220,7 +220,7 @@ const handlePacket = (packetString: string): PacketType => {
       command,
       totalAmount,
       tax,
-      tip,
+      saleAmount,
       otcList,
       prescriptions,
     };

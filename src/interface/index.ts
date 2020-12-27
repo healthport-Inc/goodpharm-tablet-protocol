@@ -75,7 +75,7 @@ export interface OTCItemType {
 export interface ConfirmPacketType {
   command: 'CONFE' | 'CONFSP';
   totalAmount: number;
-  tip: number;
+  saleAmount: number;
   tax: number;
   otcList: OTCItemType[];
   prescriptions: string[];
