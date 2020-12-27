@@ -180,17 +180,15 @@ const handlePacket = (packetString: string): PacketType => {
 
   if (command === 'OTC' || command === 'OTCS') {
     const barcode = bodyArray[0];
-    const barcodeSeq = parseInt(bodyArray[1], 10);
-    const drugName = bodyArray[2];
-    const supName = bodyArray[3];
-    const sellingPrice = parseInt(bodyArray[4], 10);
-    const buyingPrice = parseInt(bodyArray[5], 10);
-    const count = parseInt(bodyArray[6], 10);
+    const drugName = bodyArray[1];
+    const supName = bodyArray[2];
+    const sellingPrice = parseInt(bodyArray[3], 10);
+    const buyingPrice = parseInt(bodyArray[4], 10);
+    const count = parseInt(bodyArray[5], 10);
 
     return {
       command,
       barcode,
-      barcodeSeq,
       drugName,
       supName,
       sellingPrice,
@@ -209,8 +207,9 @@ const handlePacket = (packetString: string): PacketType => {
     const otcList = otcRawList.map((v) => {
       const otcArray = v.split('‡');
       return {
-        barcodeSeq: parseInt(otcArray[0], 10),
-        count: parseInt(otcArray[1], 10),
+        barcode: otcArray[0],
+        sellingPrice: parseInt(otcArray[1], 10),
+        count: parseInt(otcArray[2], 10),
       };
     });
 
