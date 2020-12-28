@@ -57,7 +57,7 @@ export interface PRESPacketType extends BasePacketType {
 
 // otc 추가
 export interface OTCPacketType {
-  command: 'OTCS' | 'OTC';
+  command: 'OTCE' | 'OTC';
   barcode: string;
   drugName: string;
   sellingPrice: number;

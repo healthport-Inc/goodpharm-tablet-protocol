@@ -178,7 +178,7 @@ const handlePacket = (packetString: string): PacketType => {
     return undefined;
   }
 
-  if (command === 'OTC' || command === 'OTCS') {
+  if (command === 'OTC' || command === 'OTCE') {
     const barcode = bodyArray[0];
     const drugName = bodyArray[1];
     const supName = bodyArray[2];
