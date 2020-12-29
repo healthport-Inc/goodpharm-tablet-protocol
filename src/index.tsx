@@ -169,15 +169,6 @@ const handlePacket = (packetString: string): PacketType => {
     };
   }
 
-  if (
-    bodyArray[0] === undefined ||
-    bodyArray[1] === undefined ||
-    bodyArray[2] === undefined
-  ) {
-    sendPacket(ERROR_PACKET_HEADER + packetString);
-    return undefined;
-  }
-
   if (command === 'OTC' || command === 'OTCE') {
     const barcode = bodyArray[0];
     const drugName = bodyArray[1];
@@ -195,6 +186,15 @@ const handlePacket = (packetString: string): PacketType => {
       buyingPrice,
       count,
     };
+  }
+
+  if (
+    bodyArray[0] === undefined ||
+    bodyArray[1] === undefined ||
+    bodyArray[2] === undefined
+  ) {
+    sendPacket(ERROR_PACKET_HEADER + packetString);
+    return undefined;
   }
 
   if (command === 'CONFE' || command === 'CONFSP') {
