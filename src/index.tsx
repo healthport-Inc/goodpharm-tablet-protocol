@@ -327,7 +327,7 @@ const usePacketReceiver = (
           const result = handlePacket(packet);
           callBack(result, packet);
         } catch (error) {
-          addTabletLog(`native log listener ${error}`);
+          addTabletLog(`receivePacket native log listener error ${error}`);
           console.log(error);
         }
       }
@@ -343,7 +343,9 @@ const usePacketReceiver = (
     const socketLogListener = eventEmitter.addListener(
       'socketLog',
       (event: { msg: string; error?: string }) => {
-        addTabletLog(`native log listener ${event.msg} ${event.error}`);
+        addTabletLog(
+          `socketLog native log listener error ${event.msg} ${event.error}`
+        );
         console.log(event);
       }
     );
@@ -359,9 +361,15 @@ const usePacketReceiver = (
   return { serviceStatus, serviceCount };
 };
 
+const interceptorSendPacket = (packet: string) => {
+  addTabletLog(`KioskSend tablet packet${packet}`);
+  sendPacket(packet);
+};
+
 const GoodpharmTabletProtocol = {
   ...GoodpharmModule,
   usePacketReceiver,
+  sendPacket: interceptorSendPacket,
 };
 
 export { GoodpharmScreens };
