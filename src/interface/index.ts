@@ -87,7 +87,7 @@ export interface ResetPacketType {
 
 export interface RemovePresPacketType {
   command: 'REPRESS';
-  prescriptions: string[];
+  drugSeq: string;
 }
 
 export interface AuthOtcPacketType {

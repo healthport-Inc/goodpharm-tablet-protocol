@@ -159,10 +159,10 @@ const handlePacket = (packetString: string): PacketType => {
   }
 
   if (command === 'REPRESS') {
-    const prescriptions = bodyArray[0].split(',');
+    const drugSeq = bodyArray[0];
     return {
       command,
-      prescriptions,
+      drugSeq,
     };
   }
 
@@ -189,7 +189,7 @@ const handlePacket = (packetString: string): PacketType => {
     const supName = bodyArray[2];
     const sellingPrice = parseInt(bodyArray[3], 10);
     const buyingPrice = parseInt(bodyArray[4], 10);
-    const count = parseInt(bodyArray[5], 10);
+    const count = parseFloat(bodyArray[5]);
 
     return {
       command,
