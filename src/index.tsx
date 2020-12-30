@@ -207,7 +207,9 @@ const handlePacket = (packetString: string): PacketType => {
     const tax = parseInt(bodyArray[1], 10);
     const saleAmount = parseInt(bodyArray[2], 10);
 
-    const otcRawList = bodyArray[3].split(',');
+    const prescriptions = bodyArray[3].split(',');
+
+    const otcRawList = bodyArray[4].split(',');
 
     const otcList = otcRawList.map((v) => {
       const otcArray = v.split('‡');
@@ -218,8 +220,6 @@ const handlePacket = (packetString: string): PacketType => {
         count: parseInt(otcArray[3], 10),
       };
     });
-
-    const prescriptions = bodyArray[4].split(',');
 
     return {
       command,
