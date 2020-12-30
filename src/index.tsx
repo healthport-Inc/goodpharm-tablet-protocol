@@ -56,6 +56,11 @@ export const makeParams = (data: any) => {
   return params;
 };
 
+const interceptorSendPacket = (packet: string) => {
+  addTabletLog(packet);
+  sendPacket(packet);
+};
+
 const addTabletLog = async (logMsg: string) => {
   try {
     const settingJson = await AsyncStorage.getItem('goodpharm-setting');
@@ -98,7 +103,7 @@ const handlePacket = (packetString: string): PacketType => {
     packetArray[0].split('=')[1] === undefined ||
     packetArray[1].split('=')[1] === undefined
   ) {
-    sendPacket(ERROR_PACKET_HEADER + packetString);
+    interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
   const command = packetArray[0].split('=')[1];
@@ -111,7 +116,7 @@ const handlePacket = (packetString: string): PacketType => {
   const body = packetArray[1].split('=')[1];
 
   if (body === null) {
-    sendPacket(ERROR_PACKET_HEADER + packetString);
+    interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
 
@@ -169,6 +174,15 @@ const handlePacket = (packetString: string): PacketType => {
     };
   }
 
+  if (
+    bodyArray[0] === undefined ||
+    bodyArray[1] === undefined ||
+    bodyArray[2] === undefined
+  ) {
+    interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
+    return undefined;
+  }
+
   if (command === 'OTC' || command === 'OTCE') {
     const barcode = bodyArray[0];
     const drugName = bodyArray[1];
@@ -186,15 +200,6 @@ const handlePacket = (packetString: string): PacketType => {
       buyingPrice,
       count,
     };
-  }
-
-  if (
-    bodyArray[0] === undefined ||
-    bodyArray[1] === undefined ||
-    bodyArray[2] === undefined
-  ) {
-    sendPacket(ERROR_PACKET_HEADER + packetString);
-    return undefined;
   }
 
   if (command === 'CONFE' || command === 'CONFSP') {
@@ -237,7 +242,7 @@ const handlePacket = (packetString: string): PacketType => {
     command === 'REMO'
   ) {
     if (bodyArray[3] === undefined) {
-      sendPacket(ERROR_PACKET_HEADER + packetString);
+      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -255,7 +260,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'AUTHC') {
     if (bodyArray[3] === undefined || bodyArray[4] === undefined) {
-      sendPacket(ERROR_PACKET_HEADER + packetString);
+      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -271,7 +276,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   } else if (command === 'DIREU') {
     if (bodyArray[3] === undefined || bodyArray[4] === undefined) {
-      sendPacket(ERROR_PACKET_HEADER + packetString);
+      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
       return undefined;
     }
     const askDate = bodyArray[3];
@@ -292,7 +297,7 @@ const handlePacket = (packetString: string): PacketType => {
   ) {
     return undefined;
   } else {
-    sendPacket(ERROR_PACKET_HEADER + packetString);
+    interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
     return undefined;
   }
 };
@@ -327,7 +332,7 @@ const usePacketReceiver = (
           const result = handlePacket(packet);
           callBack(result, packet);
         } catch (error) {
-          addTabletLog(`receivePacket native log listener error ${error}`);
+          addTabletLog(`native log listener ${error}`);
           console.log(error);
         }
       }
@@ -343,9 +348,7 @@ const usePacketReceiver = (
     const socketLogListener = eventEmitter.addListener(
       'socketLog',
       (event: { msg: string; error?: string }) => {
-        addTabletLog(
-          `socketLog native log listener error ${event.msg} ${event.error}`
-        );
+        addTabletLog(`native log listener ${event.msg} ${event.error}`);
         console.log(event);
       }
     );
@@ -361,15 +364,9 @@ const usePacketReceiver = (
   return { serviceStatus, serviceCount };
 };
 
-const interceptorSendPacket = (packet: string) => {
-  addTabletLog(`KioskSend tablet packet${packet}`);
-  sendPacket(packet);
-};
-
 const GoodpharmTabletProtocol = {
   ...GoodpharmModule,
   usePacketReceiver,
-  sendPacket: interceptorSendPacket,
 };
 
 export { GoodpharmScreens };
