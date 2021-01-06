@@ -95,6 +95,10 @@ export interface AuthOtcPacketType {
   purchaseId: string;
 }
 
+export interface UnRegisteredOTCPacketType {
+  command: 'UNREGOTC';
+}
+
 /**
  * @type {E001} V코드(산정특래환자) | v252, v352 제외 | 동내병원X, 상급기관 가면, 본인부담금 가중
  * @type {E002} 병용금기 점검(DUR) | 병용금기 점검사항 발생시
@@ -175,4 +179,5 @@ export type PacketType =
   | ResetPacketType
   | RemovePresPacketType
   | AuthOtcPacketType
+  | UnRegisteredOTCPacketType
   | undefined;

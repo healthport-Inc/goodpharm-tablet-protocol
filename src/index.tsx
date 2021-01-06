@@ -26,6 +26,7 @@ import type {
   ResetPacketType,
   RemovePresPacketType,
   AuthOtcPacketType,
+  UnRegisteredOTCPacketType,
 } from './interface';
 
 const {
@@ -392,4 +393,5 @@ export type {
   ResetPacketType,
   RemovePresPacketType,
   AuthOtcPacketType,
+  UnRegisteredOTCPacketType,
 };
