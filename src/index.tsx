@@ -108,7 +108,12 @@ const handlePacket = (packetString: string): PacketType => {
     return undefined;
   }
   const command = packetArray[0].split('=')[1];
-  if (command === 'DIRE' || command === 'BEBAR' || command === 'RESET') {
+  if (
+    command === 'DIRE' ||
+    command === 'BEBAR' ||
+    command === 'RESET' ||
+    command === 'UNREGOTC'
+  ) {
     return {
       command,
     };
