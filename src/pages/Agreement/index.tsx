@@ -21,7 +21,7 @@ export interface AgreementProps {
   resetTimer: () => void;
   // agreement: boolean;
   // toggleAgreement: () => void;
-  userName: string;
+  userName?: string;
   onPressBackButton: () => void;
   navigateToComplete: () => void;
 }
