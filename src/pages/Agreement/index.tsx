@@ -107,6 +107,7 @@ const Agreement = ({
             <GPTText fontWeight={500}>님</GPTText>
           </Text>
         )}
+
         <Text style={styles.titleTextBase}>
           <GPTText style={{ color: color.theme0 }}>굿팜</GPTText>
           <GPTText> 서비스 가입에 동의해주세요.</GPTText>
@@ -228,13 +229,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'flex-end',
-    paddingBottom: 73,
+    paddingBottom: 83,
   },
   titleTextBase: {
     fontSize: 44,
     color: color.gray,
     lineHeight: 62,
-    marginTop: 28,
+    marginTop: 18,
     marginLeft: 40,
   },
   nameTextBase: {
@@ -246,17 +247,17 @@ const styles = StyleSheet.create({
   },
   allAgreeButtonContainer: {
     flexDirection: 'row',
-    marginTop: 90,
+    marginTop: 80,
     alignItems: 'center',
   },
   allAgreeButton: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 42,
-    height: 90,
+    height: 100,
     width: 610,
     justifyContent: 'center',
-    borderRadius: 47,
+    borderRadius: 50,
     borderWidth: 2,
   },
   allAgreeCheckImage: {
@@ -271,10 +272,10 @@ const styles = StyleSheet.create({
   separator: {
     width: Dimensions.get('window').width - 80,
     marginHorizontal: 40,
-    marginTop: 50,
+    marginTop: 70,
     height: 1,
     backgroundColor: color.gray1,
-    marginBottom: 24,
+    marginBottom: 34,
   },
   agreementsArea: {
     flexDirection: 'row',

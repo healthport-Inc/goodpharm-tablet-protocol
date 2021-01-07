@@ -93,19 +93,35 @@ const ETCInputPhone = ({
                 </GPTText>
               </Text>
             )}
-            <Text>
-              <GPTText
-                style={[
-                  {
-                    color: color.black,
-                  },
-                  styles.subTitleBase,
-                ]}
-                fontWeight={300}
-              >
-                복약 관리 및 약제비 영수증이 필요하신 가요?
+            <GPTText
+              style={[
+                {
+                  color: color.black,
+                },
+                styles.subTitleBase,
+              ]}
+              fontWeight={300}
+            >
+              <GPTText style={{ color: color.theme0 }} fontWeight={500}>
+                복약 관리
               </GPTText>
-            </Text>
+              <Text>및 </Text>
+              <GPTText style={{ color: color.theme0 }} fontWeight={500}>
+                약제비 영수증
+              </GPTText>
+              <Text>이</Text>
+            </GPTText>
+            <GPTText
+              style={[
+                {
+                  color: color.black,
+                },
+                styles.subTitleBase,
+              ]}
+              fontWeight={300}
+            >
+              필요하신가요?
+            </GPTText>
             <GPTText
               style={[
                 {
