@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   leftContent: {
     width: '100%',
   },
-  infoArea: { paddingLeft: 40 },
+  infoArea: { paddingLeft: 40, paddingBottom: 40, justifyContent: 'flex-end' },
   nameTextBase: {
     fontSize: 44,
     marginTop: 95,

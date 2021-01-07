@@ -224,7 +224,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  descriptionContainer: { flex: 1, width: '100%' },
+  descriptionContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-end',
+    paddingBottom: 43,
+  },
   titleTextBase: {
     fontSize: 44,
     color: color.gray,
