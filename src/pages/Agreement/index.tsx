@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'flex-end',
-    paddingBottom: 43,
+    paddingBottom: 73,
   },
   titleTextBase: {
     fontSize: 44,

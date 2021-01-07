@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   homeButton: {
+    marginRight: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
