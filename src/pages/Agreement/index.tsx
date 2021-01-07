@@ -99,12 +99,14 @@ const Agreement = ({
     <View style={styles.container}>
       <GPTHeader onPressBackButton={onPressBackButton} />
       <View style={styles.descriptionContainer}>
-        <Text style={styles.nameTextBase}>
-          <GPTText style={{ color: color.theme0 }} fontWeight={500}>
-            {userName}
-          </GPTText>
-          <GPTText fontWeight={500}>님</GPTText>
-        </Text>
+        {userName && (
+          <Text style={styles.nameTextBase}>
+            <GPTText style={{ color: color.theme0 }} fontWeight={500}>
+              {userName}
+            </GPTText>
+            <GPTText fontWeight={500}>님</GPTText>
+          </Text>
+        )}
         <Text style={styles.titleTextBase}>
           <GPTText style={{ color: color.theme0 }}>굿팜</GPTText>
           <GPTText> 서비스 가입에 동의해주세요.</GPTText>

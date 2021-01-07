@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import color from '../../utils/color';
+import GPText from '../GPTText';
 
 export interface Props {
   rightHeaderHidden?: boolean;
@@ -14,13 +15,18 @@ const GPTHeader = ({ onPressBackButton, rightHeaderHidden }: Props) => {
         <View />
       ) : (
         <TouchableOpacity
+          hitSlop={{ top: 30, bottom: 30, left: 40, right: 40 }}
           onPress={onPressBackButton}
-          hitSlop={{ top: 25, bottom: 25, left: 40, right: 70 }}
         >
-          <Image
-            source={require('./images/left-arrow.png')}
-            style={styles.arrowIcon}
-          />
+          <View style={styles.homeButton}>
+            <Image
+              source={require('./images/ic-home.png')}
+              style={styles.homeIcon}
+            />
+            <GPText style={styles.homeText} fontWeight={500}>
+              처음으로
+            </GPText>
+          </View>
         </TouchableOpacity>
       )}
       <Image
@@ -51,5 +57,17 @@ const styles = StyleSheet.create({
     width: 70,
     height: 34,
     marginRight: 40,
+  },
+  homeButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  homeIcon: { width: 32, height: 32, marginRight: 12 },
+  homeText: {
+    marginTop: 4,
+    fontSize: 22,
+    letterSpacing: -0.85,
+    color: color.white,
   },
 });
