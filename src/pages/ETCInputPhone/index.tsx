@@ -105,7 +105,7 @@ const ETCInputPhone = ({
               <GPTText style={{ color: color.theme0 }} fontWeight={500}>
                 복약 관리
               </GPTText>
-              <Text>및 </Text>
+              <Text> 및 </Text>
               <GPTText style={{ color: color.theme0 }} fontWeight={500}>
                 약제비 영수증
               </GPTText>
@@ -121,17 +121,6 @@ const ETCInputPhone = ({
               fontWeight={300}
             >
               필요하신가요?
-            </GPTText>
-            <GPTText
-              style={[
-                {
-                  color: color.black,
-                },
-                styles.subTitleBase,
-              ]}
-              fontWeight={300}
-            >
-              휴대폰번호를 입력해주세요
             </GPTText>
             <View style={styles.phoneArea}>
               <Text style={styles.phoneText}>
@@ -212,7 +201,7 @@ const styles = StyleSheet.create({
     fontSize: 44,
     marginTop: 95,
     lineHeight: 62,
-    marginBottom: 28,
+    marginBottom: 38,
   },
   subTitleBase: {
     fontSize: 40,
@@ -221,7 +210,7 @@ const styles = StyleSheet.create({
   phoneArea: {
     marginLeft: 8,
     marginRight: 108,
-    marginTop: 70,
+    marginTop: 90,
   },
   phoneText: {
     width: '100%',
@@ -234,7 +223,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: color.gray10,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 16,
   },
   descriptionText: {
     fontSize: 13,
