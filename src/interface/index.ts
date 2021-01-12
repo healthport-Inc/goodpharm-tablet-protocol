@@ -77,6 +77,7 @@ export interface ConfirmPacketType {
   totalAmount: number;
   saleAmount: number;
   tax: number;
+  phone: string;
   otcList: OTCItemType[];
   prescriptions: string[];
 }

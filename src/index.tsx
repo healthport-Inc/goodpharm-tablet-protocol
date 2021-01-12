@@ -212,10 +212,10 @@ const handlePacket = (packetString: string): PacketType => {
     const totalAmount = parseInt(bodyArray[0], 10);
     const tax = parseInt(bodyArray[1], 10);
     const saleAmount = parseInt(bodyArray[2], 10);
+    const phone = bodyArray[3];
+    const prescriptions = bodyArray[4].split(',');
 
-    const prescriptions = bodyArray[3].split(',');
-
-    const otcRawList = bodyArray[4].split(',');
+    const otcRawList = bodyArray[5].split(',');
 
     const otcList = otcRawList.map((v) => {
       const otcArray = v.split('‡');
@@ -232,6 +232,7 @@ const handlePacket = (packetString: string): PacketType => {
       totalAmount,
       tax,
       saleAmount,
+      phone,
       otcList,
       prescriptions,
     };
