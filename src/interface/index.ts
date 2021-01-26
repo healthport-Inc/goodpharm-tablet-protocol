@@ -24,6 +24,13 @@ export interface CommonPacketType extends BasePacketType {
   command: 'AUTH' | 'DIREN' | 'REMO' | 'COMPC';
   askDate: string;
 }
+
+export interface AUTHPPacketType extends BasePacketType {
+  command: 'AUTHP';
+  askDate: string;
+  purchaseId: string;
+}
+
 export interface AGREPacketType {
   command: 'AGRE';
 }
@@ -181,4 +188,5 @@ export type PacketType =
   | RemovePresPacketType
   | AuthOtcPacketType
   | UnRegisteredOTCPacketType
+  | AUTHPPacketType
   | undefined;

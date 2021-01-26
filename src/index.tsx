@@ -27,6 +27,7 @@ import type {
   RemovePresPacketType,
   AuthOtcPacketType,
   UnRegisteredOTCPacketType,
+  AUTHPPacketType,
 } from './interface';
 
 const {
@@ -261,6 +262,24 @@ const handlePacket = (packetString: string): PacketType => {
       drugSeq,
       askDate,
     };
+  } else if (command === 'AUTHP') {
+    // AUTH_PURCHASE
+    // purchase id 포함
+    if (bodyArray[3] === undefined) {
+      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
+      return undefined;
+    }
+    const askDate = bodyArray[3];
+    const purchaseId = bodyArray[4];
+
+    return {
+      command,
+      userName,
+      userToken,
+      drugSeq,
+      askDate,
+      purchaseId,
+    };
   } else if (command === 'AGRE' || command === 'NAGRE') {
     return {
       command,
@@ -400,4 +419,5 @@ export type {
   RemovePresPacketType,
   AuthOtcPacketType,
   UnRegisteredOTCPacketType,
+  AUTHPPacketType,
 };
