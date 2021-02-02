@@ -243,7 +243,28 @@ const handlePacket = (packetString: string): PacketType => {
       prescriptions,
     };
   }
+  if (command === 'AUTHP') {
+    // AUTH_PURCHASE
+    // purchase id 포함
+    if (bodyArray[3] === undefined) {
+      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
+      return undefined;
+    }
+    const userName = bodyArray[0];
+    const userToken = bodyArray[1];
+    const drugSeqList = bodyArray[2].split(',');
+    const askDate = bodyArray[3];
+    const purchaseId = bodyArray[4];
 
+    return {
+      command,
+      userName,
+      userToken,
+      drugSeqList,
+      askDate,
+      purchaseId,
+    };
+  }
   const userName = bodyArray[0];
   const userToken = bodyArray[1];
   const drugSeq = bodyArray[2];
@@ -266,24 +287,6 @@ const handlePacket = (packetString: string): PacketType => {
       userToken,
       drugSeq,
       askDate,
-    };
-  } else if (command === 'AUTHP') {
-    // AUTH_PURCHASE
-    // purchase id 포함
-    if (bodyArray[3] === undefined) {
-      interceptorSendPacket(ERROR_PACKET_HEADER + packetString);
-      return undefined;
-    }
-    const askDate = bodyArray[3];
-    const purchaseId = bodyArray[4];
-
-    return {
-      command,
-      userName,
-      userToken,
-      drugSeq,
-      askDate,
-      purchaseId,
     };
   } else if (command === 'AGRE' || command === 'NAGRE') {
     return {

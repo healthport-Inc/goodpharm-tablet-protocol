@@ -25,8 +25,11 @@ export interface CommonPacketType extends BasePacketType {
   askDate: string;
 }
 
-export interface AUTHPPacketType extends BasePacketType {
+export interface AUTHPPacketType {
   command: 'AUTHP';
+  userName: string;
+  userToken: string;
+  drugSeqList: string[];
   askDate: string;
   purchaseId: string;
 }
