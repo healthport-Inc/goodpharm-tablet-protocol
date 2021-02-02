@@ -209,7 +209,12 @@ const handlePacket = (packetString: string): PacketType => {
     };
   }
 
-  if (command === 'CONFE' || command === 'CONFSP') {
+  if (
+    command === 'CONFE' ||
+    command === 'CONFSP' ||
+    command === 'CONF_CARD' ||
+    command === 'CONF_CASH'
+  ) {
     const totalAmount = parseInt(bodyArray[0], 10);
     const tax = parseInt(bodyArray[1], 10);
     const saleAmount = parseInt(bodyArray[2], 10);

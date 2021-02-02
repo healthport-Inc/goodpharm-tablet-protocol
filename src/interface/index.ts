@@ -80,7 +80,7 @@ export interface OTCItemType {
 }
 
 export interface ConfirmPacketType {
-  command: 'CONFE' | 'CONFSP';
+  command: 'CONFE' | 'CONFSP' | 'CONF_CASH' | 'CONF_CARD';
   totalAmount: number;
   saleAmount: number;
   tax: number;
