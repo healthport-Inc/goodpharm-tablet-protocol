@@ -28,6 +28,7 @@ import type {
   AuthOtcPacketType,
   UnRegisteredOTCPacketType,
   AUTHPPacketType,
+  ConfirmCardPacketType,
 } from './interface';
 
 const {
@@ -209,12 +210,7 @@ const handlePacket = (packetString: string): PacketType => {
     };
   }
 
-  if (
-    command === 'CONFE' ||
-    command === 'CONFSP' ||
-    command === 'CONF_CARD' ||
-    command === 'CONF_CASH'
-  ) {
+  if (command === 'CONFE' || command === 'CONFSP' || command === 'CONF_CASH') {
     const totalAmount = parseInt(bodyArray[0], 10);
     const tax = parseInt(bodyArray[1], 10);
     const saleAmount = parseInt(bodyArray[2], 10);
@@ -241,6 +237,39 @@ const handlePacket = (packetString: string): PacketType => {
       phone,
       otcList,
       prescriptions,
+    };
+  }
+
+  if (command === 'CONF_CARD') {
+    const totalAmount = parseInt(bodyArray[0], 10);
+    const tax = parseInt(bodyArray[1], 10);
+    const saleAmount = parseInt(bodyArray[2], 10);
+    const phone = bodyArray[3];
+    const prescriptions = bodyArray[4].split(',');
+
+    const otcRawList = bodyArray[5].split(',');
+
+    const otcList = otcRawList.map((v) => {
+      const otcArray = v.split('‡');
+      return {
+        barcode: otcArray[0],
+        drugName: otcArray[1],
+        sellingPrice: parseInt(otcArray[2], 10),
+        count: parseInt(otcArray[3], 10),
+      };
+    });
+
+    const installment = bodyArray[6] ? parseInt(bodyArray[6], 10) : 0;
+
+    return {
+      command,
+      totalAmount,
+      tax,
+      saleAmount,
+      phone,
+      otcList,
+      prescriptions,
+      installment,
     };
   }
   if (command === 'AUTHP') {
@@ -428,4 +457,5 @@ export type {
   AuthOtcPacketType,
   UnRegisteredOTCPacketType,
   AUTHPPacketType,
+  ConfirmCardPacketType,
 };

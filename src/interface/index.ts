@@ -91,6 +91,10 @@ export interface ConfirmPacketType {
   otcList: OTCItemType[];
   prescriptions: string[];
 }
+export interface ConfirmCardPacketType extends ConfirmPacketType {
+  command: 'CONF_CARD';
+  installment: number;
+}
 
 export interface ResetPacketType {
   command: 'RESET';
@@ -192,4 +196,5 @@ export type PacketType =
   | AuthOtcPacketType
   | UnRegisteredOTCPacketType
   | AUTHPPacketType
+  | ConfirmCardPacketType
   | undefined;
