@@ -83,7 +83,7 @@ export interface OTCItemType {
 }
 
 export interface ConfirmPacketType {
-  command: 'CONFE' | 'CONFSP' | 'CONF_CASH' | 'CONF_CARD';
+  command: 'CONFE' | 'CONFSP' | 'CONF_CASH';
   totalAmount: number;
   saleAmount: number;
   tax: number;
@@ -91,8 +91,14 @@ export interface ConfirmPacketType {
   otcList: OTCItemType[];
   prescriptions: string[];
 }
-export interface ConfirmCardPacketType extends ConfirmPacketType {
+export interface ConfirmCardPacketType {
   command: 'CONF_CARD';
+  totalAmount: number;
+  saleAmount: number;
+  tax: number;
+  phone: string;
+  otcList: OTCItemType[];
+  prescriptions: string[];
   installment: number;
 }
 
