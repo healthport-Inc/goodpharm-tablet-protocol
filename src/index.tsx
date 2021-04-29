@@ -139,6 +139,7 @@ const handlePacket = (packetString: string): PacketType => {
     const realPrice = bodyArray[5];
     const insertPrice = bodyArray[6];
     const isDust = bodyArray[7] === '1';
+    const phone = bodyArray?.[8];
 
     return {
       command,
@@ -150,6 +151,7 @@ const handlePacket = (packetString: string): PacketType => {
       realPrice,
       insertPrice,
       isDust,
+      phone,
     };
   }
 

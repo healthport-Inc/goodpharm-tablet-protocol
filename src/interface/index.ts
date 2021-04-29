@@ -63,6 +63,7 @@ export interface PRESPacketType extends BasePacketType {
   realPrice: string;
   insertPrice: string;
   isDust: boolean;
+  phone?: string;
 }
 
 // otc 추가
