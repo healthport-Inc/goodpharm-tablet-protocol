@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { GPTHeader, GPTText, NumberInput } from '../../components';
@@ -10,6 +10,7 @@ export interface ETCInputPhoneProps {
   agreeAndConfirmButton: (phoneNumber: string) => void;
   userName?: string;
   setPhone: (phoneNumber: string) => void;
+  phone: string;
 }
 
 const ETCInputPhone = ({
@@ -17,16 +18,28 @@ const ETCInputPhone = ({
   resetTimer,
   agreeAndConfirmButton,
   userName,
+  phone,
   setPhone,
 }: ETCInputPhoneProps) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [middleNumber, setMiddleNumber] = useState<string>('••••');
   const [lastNumber, setLastNumber] = useState<string>('••••');
-  const [disabled, setDisabled] = useState<boolean>(true);
+
+  const disabled = useMemo(() => phoneNumber.length !== 8, [phoneNumber]);
+
+  useEffect(() => {
+    if (phone) {
+      setPhoneNumber(phone.substring(3, phone.length));
+      setMiddleNumber(phone.substring(3, 7));
+      setLastNumber(phone.substring(7, phone.length));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setPhone(`010${phoneNumber}`);
-  }, [phoneNumber, setPhone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phoneNumber]);
 
   const backSpaceButton = (): void => {
     resetTimer();
@@ -48,7 +61,6 @@ const ETCInputPhone = ({
       }
       setPhoneNumber(totalPhone);
       setLastNumber(nextLastNumber);
-      setDisabled(true);
     }
   };
 
@@ -56,7 +68,6 @@ const ETCInputPhone = ({
     setPhoneNumber('');
     setLastNumber('••••');
     setMiddleNumber('••••');
-    setDisabled(true);
   };
 
   const handlePhoneNumber = (number: string): void => {
@@ -78,7 +89,6 @@ const ETCInputPhone = ({
         }
         setLastNumber(nextLastNumber);
         setPhoneNumber(phoneNumber + number);
-        setDisabled(phoneNumber.length === 7 ? false : true);
       }
     }
   };
