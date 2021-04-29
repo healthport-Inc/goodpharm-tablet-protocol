@@ -7,10 +7,9 @@ import color from '../../utils/color';
 export interface ETCInputPhoneProps {
   onPressBackButton: () => void;
   resetTimer: () => void;
-  agreeAndConfirmButton: () => void;
+  agreeAndConfirmButton: (phoneNumber: string) => void;
   userName?: string;
-  phone: string;
-  setPhone: (phone: string) => void;
+  setPhone: (phoneNumber: string) => void;
 }
 
 const ETCInputPhone = ({
@@ -18,66 +17,70 @@ const ETCInputPhone = ({
   resetTimer,
   agreeAndConfirmButton,
   userName,
-  phone,
   setPhone,
 }: ETCInputPhoneProps) => {
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [middleNumber, setMiddleNumber] = useState<string>('••••');
   const [lastNumber, setLastNumber] = useState<string>('••••');
   const [disabled, setDisabled] = useState<boolean>(true);
 
+  useEffect(() => {
+    setPhone(`010${phoneNumber}`);
+  }, [phoneNumber, setPhone]);
+
   const backSpaceButton = (): void => {
     resetTimer();
     // 한자리 지우기
-    if (phone.length === 0) {
-    } else if (phone.length <= 4) {
-      const totalPhone = phone.substring(0, phone.length - 1);
+    if (phoneNumber.length === 0) {
+    } else if (phoneNumber.length <= 4) {
+      const totalPhone = phoneNumber.substring(0, phoneNumber.length - 1);
       let nextMiddleNumber = totalPhone;
       while (nextMiddleNumber.length < 4) {
         nextMiddleNumber = nextMiddleNumber + '•';
       }
-      setPhone(totalPhone);
+      setPhoneNumber(totalPhone);
       setMiddleNumber(nextMiddleNumber);
-    } else if (phone.length <= 8) {
-      const totalPhone = phone.substring(0, phone.length - 1);
-      let nextLastNumber = totalPhone.substring(4, phone.length - 1);
+    } else if (phoneNumber.length <= 8) {
+      const totalPhone = phoneNumber.substring(0, phoneNumber.length - 1);
+      let nextLastNumber = totalPhone.substring(4, phoneNumber.length - 1);
       while (nextLastNumber.length < 4) {
         nextLastNumber = nextLastNumber + '•';
       }
-      setPhone(totalPhone);
+      setPhoneNumber(totalPhone);
       setLastNumber(nextLastNumber);
       setDisabled(true);
     }
   };
 
   const resetButton = (): void => {
-    setPhone('');
+    setPhoneNumber('');
+    setLastNumber('••••');
+    setMiddleNumber('••••');
+    setDisabled(true);
   };
 
-  useEffect(() => {
+  const handlePhoneNumber = (number: string): void => {
     resetTimer();
-    if (phone.length === 0) {
-    } else if (phone.length <= 4) {
-      const totalPhone = phone.substring(0, phone.length - 1);
-      let nextMiddleNumber = totalPhone;
-      while (nextMiddleNumber.length < 4) {
-        nextMiddleNumber = nextMiddleNumber + '•';
+    if (phoneNumber.length === 0 && number === '0') {
+    } else {
+      if (phoneNumber.length < 4) {
+        let nextMiddleNumber = phoneNumber + number;
+        while (nextMiddleNumber.length < 4) {
+          nextMiddleNumber = nextMiddleNumber + '•';
+        }
+        setPhoneNumber(phoneNumber + number);
+        setMiddleNumber(nextMiddleNumber);
+      } else if (phoneNumber.length < 8) {
+        let nextLastNumber =
+          phoneNumber.substring(4, phoneNumber.length) + number;
+        while (nextLastNumber.length < 4) {
+          nextLastNumber = nextLastNumber + '•';
+        }
+        setLastNumber(nextLastNumber);
+        setPhoneNumber(phoneNumber + number);
+        setDisabled(phoneNumber.length === 7 ? false : true);
       }
-      setPhone(totalPhone);
-      setMiddleNumber(nextMiddleNumber);
-    } else if (phone.length <= 8) {
-      const totalPhone = phone.substring(0, phone.length - 1);
-      let nextLastNumber = totalPhone.substring(4, phone.length - 1);
-      while (nextLastNumber.length < 4) {
-        nextLastNumber = nextLastNumber + '•';
-      }
-      setPhone(totalPhone);
-      setLastNumber(nextLastNumber);
-      setDisabled(phone.length !== 7);
     }
-  }, [phone, resetTimer, setPhone]);
-
-  const handlePhone = (number: string): void => {
-    setPhone(phone + number);
   };
 
   return (
@@ -151,7 +154,10 @@ const ETCInputPhone = ({
               </View>
             </View>
           </View>
-          <TouchableOpacity onPress={agreeAndConfirmButton} disabled={disabled}>
+          <TouchableOpacity
+            onPress={() => agreeAndConfirmButton(phoneNumber)}
+            disabled={disabled}
+          >
             <View
               style={[
                 styles.button,
@@ -174,7 +180,7 @@ const ETCInputPhone = ({
           </TouchableOpacity>
         </View>
         <NumberInput
-          setNumber={handlePhone}
+          setNumber={handlePhoneNumber}
           resetNumber={resetButton}
           backSpace={backSpaceButton}
         />
