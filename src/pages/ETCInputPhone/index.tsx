@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { GPTHeader, GPTText, NumberInput } from '../../components';
@@ -51,32 +51,33 @@ const ETCInputPhone = ({
 
   const resetButton = (): void => {
     setPhone('');
-    setLastNumber('••••');
-    setMiddleNumber('••••');
-    setDisabled(true);
   };
 
-  const handlePhone = (number: string): void => {
+  useEffect(() => {
     resetTimer();
-    if (phone.length === 0 && number === '0') {
-    } else {
-      if (phone.length < 4) {
-        let nextMiddleNumber = phone + number;
-        while (nextMiddleNumber.length < 4) {
-          nextMiddleNumber = nextMiddleNumber + '•';
-        }
-        setPhone(phone + number);
-        setMiddleNumber(nextMiddleNumber);
-      } else if (phone.length < 8) {
-        let nextLastNumber = phone.substring(4, phone.length) + number;
-        while (nextLastNumber.length < 4) {
-          nextLastNumber = nextLastNumber + '•';
-        }
-        setLastNumber(nextLastNumber);
-        setPhone(phone + number);
-        setDisabled(phone.length === 7 ? false : true);
+    if (phone.length === 0) {
+    } else if (phone.length <= 4) {
+      const totalPhone = phone.substring(0, phone.length - 1);
+      let nextMiddleNumber = totalPhone;
+      while (nextMiddleNumber.length < 4) {
+        nextMiddleNumber = nextMiddleNumber + '•';
       }
+      setPhone(totalPhone);
+      setMiddleNumber(nextMiddleNumber);
+    } else if (phone.length <= 8) {
+      const totalPhone = phone.substring(0, phone.length - 1);
+      let nextLastNumber = totalPhone.substring(4, phone.length - 1);
+      while (nextLastNumber.length < 4) {
+        nextLastNumber = nextLastNumber + '•';
+      }
+      setPhone(totalPhone);
+      setLastNumber(nextLastNumber);
+      setDisabled(phone.length !== 7);
     }
+  }, [phone, resetTimer, setPhone]);
+
+  const handlePhone = (number: string): void => {
+    setPhone(phone + number);
   };
 
   return (
