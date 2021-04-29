@@ -7,8 +7,10 @@ import color from '../../utils/color';
 export interface ETCInputPhoneProps {
   onPressBackButton: () => void;
   resetTimer: () => void;
-  agreeAndConfirmButton: (phoneNumber: string) => void;
+  agreeAndConfirmButton: () => void;
   userName?: string;
+  phone: string;
+  setPhone: (phone: string) => void;
 }
 
 const ETCInputPhone = ({
@@ -16,8 +18,9 @@ const ETCInputPhone = ({
   resetTimer,
   agreeAndConfirmButton,
   userName,
+  phone,
+  setPhone,
 }: ETCInputPhoneProps) => {
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [middleNumber, setMiddleNumber] = useState<string>('••••');
   const [lastNumber, setLastNumber] = useState<string>('••••');
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -25,54 +28,53 @@ const ETCInputPhone = ({
   const backSpaceButton = (): void => {
     resetTimer();
     // 한자리 지우기
-    if (phoneNumber.length === 0) {
-    } else if (phoneNumber.length <= 4) {
-      const totalPhone = phoneNumber.substring(0, phoneNumber.length - 1);
+    if (phone.length === 0) {
+    } else if (phone.length <= 4) {
+      const totalPhone = phone.substring(0, phone.length - 1);
       let nextMiddleNumber = totalPhone;
       while (nextMiddleNumber.length < 4) {
         nextMiddleNumber = nextMiddleNumber + '•';
       }
-      setPhoneNumber(totalPhone);
+      setPhone(totalPhone);
       setMiddleNumber(nextMiddleNumber);
-    } else if (phoneNumber.length <= 8) {
-      const totalPhone = phoneNumber.substring(0, phoneNumber.length - 1);
-      let nextLastNumber = totalPhone.substring(4, phoneNumber.length - 1);
+    } else if (phone.length <= 8) {
+      const totalPhone = phone.substring(0, phone.length - 1);
+      let nextLastNumber = totalPhone.substring(4, phone.length - 1);
       while (nextLastNumber.length < 4) {
         nextLastNumber = nextLastNumber + '•';
       }
-      setPhoneNumber(totalPhone);
+      setPhone(totalPhone);
       setLastNumber(nextLastNumber);
       setDisabled(true);
     }
   };
 
   const resetButton = (): void => {
-    setPhoneNumber('');
+    setPhone('');
     setLastNumber('••••');
     setMiddleNumber('••••');
     setDisabled(true);
   };
 
-  const handlePhoneNumber = (number: string): void => {
+  const handlePhone = (number: string): void => {
     resetTimer();
-    if (phoneNumber.length === 0 && number === '0') {
+    if (phone.length === 0 && number === '0') {
     } else {
-      if (phoneNumber.length < 4) {
-        let nextMiddleNumber = phoneNumber + number;
+      if (phone.length < 4) {
+        let nextMiddleNumber = phone + number;
         while (nextMiddleNumber.length < 4) {
           nextMiddleNumber = nextMiddleNumber + '•';
         }
-        setPhoneNumber(phoneNumber + number);
+        setPhone(phone + number);
         setMiddleNumber(nextMiddleNumber);
-      } else if (phoneNumber.length < 8) {
-        let nextLastNumber =
-          phoneNumber.substring(4, phoneNumber.length) + number;
+      } else if (phone.length < 8) {
+        let nextLastNumber = phone.substring(4, phone.length) + number;
         while (nextLastNumber.length < 4) {
           nextLastNumber = nextLastNumber + '•';
         }
         setLastNumber(nextLastNumber);
-        setPhoneNumber(phoneNumber + number);
-        setDisabled(phoneNumber.length === 7 ? false : true);
+        setPhone(phone + number);
+        setDisabled(phone.length === 7 ? false : true);
       }
     }
   };
@@ -148,10 +150,7 @@ const ETCInputPhone = ({
               </View>
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => agreeAndConfirmButton(phoneNumber)}
-            disabled={disabled}
-          >
+          <TouchableOpacity onPress={agreeAndConfirmButton} disabled={disabled}>
             <View
               style={[
                 styles.button,
@@ -174,7 +173,7 @@ const ETCInputPhone = ({
           </TouchableOpacity>
         </View>
         <NumberInput
-          setNumber={handlePhoneNumber}
+          setNumber={handlePhone}
           resetNumber={resetButton}
           backSpace={backSpaceButton}
         />
