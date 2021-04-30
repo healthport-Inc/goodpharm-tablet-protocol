@@ -28,7 +28,7 @@ const ETCInputPhone = ({
   const disabled = useMemo(() => phoneNumber.length !== 8, [phoneNumber]);
 
   useEffect(() => {
-    if (phone) {
+    if (phone.length === 11) {
       setPhoneNumber(phone.substring(3, phone.length));
       setMiddleNumber(phone.substring(3, 7));
       setLastNumber(phone.substring(7, phone.length));
@@ -37,7 +37,7 @@ const ETCInputPhone = ({
   }, []);
 
   useEffect(() => {
-    setPhone(`010${phoneNumber}`);
+    setPhone(`${phoneNumber}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneNumber]);
 
